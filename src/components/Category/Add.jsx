@@ -6,21 +6,23 @@ import TreeView from "@mui/lab/TreeView";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import TextField from '@mui/material/TextField';
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form";
+import Alert from '@mui/material/Alert';
 
 
 const Add = () => {
   const [menuData, setMenuData] = useState([]);
   const [megaData, setMegaData] = useState([]);
   const {
-    register,
+    control, 
     handleSubmit,
+    register ,
     watch,
     formState: { errors },
   } = useForm()
   const onSubmit = (data) => console.log(data)
 
-  // console.log(watch("parent"))
+  console.log(watch("parent"))
  
   const getData = () => {
     fetch(import.meta.env.VITE_BASE_URL + "/api/categories?populate=*", {
@@ -68,12 +70,17 @@ const Add = () => {
   }, [menuData]);
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+       <Controller
+      name="parent"
+      control={control}
+      render={({ field }) =>(
       <TreeView 
-        {...register("parent")}
+        {...field}
         aria-label="file system navigator"
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}
         sx={{ height: 240, flexGrow: 1, maxWidth: 400, overflowY: "auto" }}
+        onNodeSelect={(event, value) => field.onChange(value)}
       >
         {megaData.subCategory &&
           megaData.subCategory.map((item) => {
@@ -93,13 +100,16 @@ const Add = () => {
             
           })}
       </TreeView>
+        )}
+        />
       
       <TextField
         helperText="Please enter category name"
         id="demo-helper-text-aligned"
         label="category"
-        {...register("title")}
+        {...register("title" ,{ required: true }) }
       />
+      {errors.title&& <Alert severity="error">this field is required??</Alert>}
       <input type="file" {...register("iconFile")} />
 
       <Button variant="outlined" color="info" startIcon={<AddIcon />} type="submit">

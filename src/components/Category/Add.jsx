@@ -22,9 +22,66 @@ const Add = () => {
     watch,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => console.log(data);
 
-  console.log(watch("parent"));
+  // const onSubmit = (data) => {
+  //   const formData = {
+  //     data: {
+  //       title: data.title,
+  //       icon: data.iconFile[0],
+  //       parent: data.parent,
+  //     },
+      
+  //   };
+  //   console.log(formData);
+  //   console.log(JSON.stringify(formData));
+
+  //   fetch(import.meta.env.VITE_BASE_URL + "/api/categories", {
+  //     method: "POST",
+  //     headers: {
+  //       Authorization: "bearer " + import.meta.env.VITE_API_KEY,
+  //     },
+  //     body: JSON.stringify(formData),
+  //   })
+  //     .then((response) => response.json())
+  //     .then((result) => {
+  //       console.log("Data successfully posted to Strapi:", result);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error posting data to Strapi:", error);
+  //     });
+  // };
+
+
+  const onSubmit = (data) => {
+    const formData = {
+      Files: data.icon
+      
+    };
+    console.log(formData);
+    console.log(JSON.stringify(formData));
+    console.log(data)
+
+    fetch(import.meta.env.VITE_BASE_URL + "/api/upload", {
+      method: "POST",
+      headers: {
+        Authorization: "bearer " + import.meta.env.VITE_API_KEY,
+      },
+      body:  JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log("Data successfully posted to Strapi:", result);
+      })
+      .catch((error) => {
+        console.error("Error posting data to Strapi:", error);
+      });
+  };
+ 
+  
+  
+  
+  
+ 
 
   const getData = () => {
     fetch(import.meta.env.VITE_BASE_URL + "/api/categories?populate=*", {
@@ -33,6 +90,7 @@ const Add = () => {
       .then((response) => response.json())
       .then((result) => {
         setMenuData(result.data);
+        console.log(result.data);
       });
   };
   const generateMenu = () => {
@@ -120,20 +178,20 @@ const Add = () => {
                         return (
                           <TreeItem
                             label={item.title}
-                            nodeId={item.title}
+                            nodeId={item.id}
                             key={item.id}
                           >
                             {item.subCategory.map((subItem) => {
                               return (
                                 <TreeItem
-                                  nodeId={subItem.title}
+                                  nodeId={subItem.id}
                                   label={subItem.title}
                                   key={subItem.id}
                                 >
                                   {subItem.subCategory.map((opt) => {
                                     return (
                                       <TreeItem
-                                        nodeId={opt.title}
+                                        nodeId={opt.id}
                                         label={opt.title}
                                         key={opt.id}
                                       ></TreeItem>

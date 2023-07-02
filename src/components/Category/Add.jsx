@@ -30,7 +30,7 @@ const Add = () => {
   //       icon: data.iconFile[0],
   //       parent: data.parent,
   //     },
-      
+
   //   };
   //   console.log(formData);
   //   console.log(JSON.stringify(formData));
@@ -51,37 +51,67 @@ const Add = () => {
   //     });
   // };
 
+  // const onSubmit = (data) => {
+  //   const formData = {
+  //     Files: data.icon
 
-  const onSubmit = (data) => {
-    const formData = {
-      Files: data.icon
-      
-    };
-    console.log(formData);
-    console.log(JSON.stringify(formData));
-    console.log(data)
+  //   };
+  //   console.log(formData);
+  //   console.log(JSON.stringify(formData));
+  //   console.log(data)
 
-    fetch(import.meta.env.VITE_BASE_URL + "/api/upload", {
-      method: "POST",
-      headers: {
-        Authorization: "bearer " + import.meta.env.VITE_API_KEY,
-      },
-      body:  JSON.stringify(formData),
-    })
-      .then((response) => response.json())
-      .then((result) => {
+  //   fetch(import.meta.env.VITE_BASE_URL + "/api/upload", {
+  //     method: "POST",
+  //     headers: {
+  //       Authorization: "bearer " + import.meta.env.VITE_API_KEY,
+  //     },
+  //     body:  JSON.stringify(formData),
+  //   })
+  //     .then((response) => response.json())
+  //     .then((result) => {
+  //       console.log("Data successfully posted to Strapi:", result);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error posting data to Strapi:", error);
+  //     });
+  // };
+
+  const onSubmit = async (data) => {
+    try {
+      const formData = {
+        data: {
+          title: data.title,
+          icon: [19],
+          parent: data.parent,
+        },
+      };
+
+      console.log(formData);
+
+      const response = await fetch(
+        import.meta.env.VITE_BASE_URL + "/api/categories",
+        {
+          method: "POST",
+          headers: {
+            Authorization: "bearer " + import.meta.env.VITE_API_KEY,
+            accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      if (response.ok) {
+        const result = await response.json();
         console.log("Data successfully posted to Strapi:", result);
-      })
-      .catch((error) => {
-        console.error("Error posting data to Strapi:", error);
-      });
+        getData()
+      } else {
+        console.error("Error posting data to Strapi:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error posting data to Strapi:", error);
+    }
   };
- 
-  
-  
-  
-  
- 
 
   const getData = () => {
     fetch(import.meta.env.VITE_BASE_URL + "/api/categories?populate=*", {

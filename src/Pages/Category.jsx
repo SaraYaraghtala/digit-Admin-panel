@@ -9,10 +9,18 @@ import { Controller, useForm } from "react-hook-form";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import Stack from "@mui/material/Stack";
+import Add from "../components/Category/Add";
 
 const Category = () => {
   const [menuData, setMenuData] = useState([]);
   const [megaData, setMegaData] = useState([]);
+  const [currentNode, setCurrentNode] = useState(-1);
+  const [showEditPanel, setShowEditPanel] = useState(false);
+  const [showAddPanel, setShowAddPanel] = useState(false);
   const {
     control,
     handleSubmit,
@@ -22,7 +30,37 @@ const Category = () => {
   } = useForm();
   const onSubmit = (data) => console.log(data);
 
-  console.log(watch("parent"));
+  // console.log(watch("parent"));
+
+  const deleteItem = (itemId) => {
+    // Perform the deletion logic for the item with the given itemId
+    if (confirm("you sure delet this item ?")) {
+      fetch(import.meta.env.VITE_BASE_URL + "/api/categories/" + itemId, {
+        method: "DELETE",
+        headers: {
+          Authorization: "bearer " + import.meta.env.VITE_API_KEY,
+          accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((response) => {
+          setCurrentNode(-1);
+          getData();
+        });
+    } else console.log("cancel");
+  };
+  const addItem = (itemId) => {
+    console.log("Add item with ID:", itemId);
+    setShowAddPanel(true);
+    setShowEditPanel(false);
+  };
+  const editItem = (itemId) => {
+    // Perform the deletion logic for the item with the given itemId
+    console.log(" Edit item with ID:", itemId);
+    setShowEditPanel(true);
+    setShowAddPanel(false);
+  };
 
   const getData = () => {
     fetch(import.meta.env.VITE_BASE_URL + "/api/categories?populate=*", {
@@ -52,6 +90,9 @@ const Category = () => {
             parent: menuItem.id,
             subCategory: [],
             icon: menuData[i].attributes.icon,
+            deleteItem: () => deleteItem(menuData[i].id),
+            addItem: () => addItem(menuData[i].id),
+            editItem: () => editItem(menuData[i].id),
           };
           menuItem.subCategory.push(item);
           getSubCategory(item);
@@ -70,6 +111,10 @@ const Category = () => {
   useEffect(() => {
     generateMenu();
   }, [menuData]);
+
+  useEffect(() => {
+    console.log(currentNode);
+  }, [currentNode]);
 
   return (
     <React.Fragment>
@@ -116,43 +161,207 @@ const Category = () => {
                       bgcolor: "#FDEDED",
                       border: "3px solid #73A5D3",
                     }}
-                    onNodeSelect={(event, value) => field.onChange(value)}
+                    onNodeSelect={(event, value) => {
+                      field.onChange(Number(value));
+                      setCurrentNode(Number(value));
+                    }}
                   >
                     {megaData.subCategory &&
-                      megaData.subCategory.map((item) => {
-                        return (
-                          <TreeItem
-                            label={item.title}
-                            nodeId={item.id}
-                            key={item.id}
-                          >
-                            {item.subCategory.map((subItem) => {
-                              return (
-                                <TreeItem
-                                  nodeId={subItem.id}
-                                  label={subItem.title}
-                                  key={subItem.id}
+                      megaData.subCategory.map((item) => (
+                        <TreeItem
+                          label={
+                            <React.Fragment>
+                              {item.title}
+                              {currentNode == item.id && (
+                                <Stack
+                                  direction="row"
+                                  spacing={1}
+                                  sx={{
+                                    display: "inline-block",
+                                  }}
                                 >
-                                  {subItem.subCategory.map((opt) => {
-                                    return (
-                                      <TreeItem
-                                        nodeId={opt.id}
-                                        label={opt.title}
-                                        key={opt.id}
-                                      ></TreeItem>
-                                    );
-                                  })}
-                                </TreeItem>
-                              );
-                            })}
-                          </TreeItem>
-                        );
-                      })}
+                                  <IconButton
+                                    aria-label="delete"
+                                    onClick={item.deleteItem}
+                                  >
+                                    <DeleteIcon
+                                      sx={{
+                                        fill: "red",
+                                        // width: "90%",
+                                      }}
+                                    />
+                                  </IconButton>
+                                  <IconButton
+                                    aria-label="delete"
+                                    onClick={item.editItem}
+                                  >
+                                    <ModeEditIcon
+                                      sx={{
+                                        fill: "red",
+                                        // width: "90%",
+                                      }}
+                                    />
+                                  </IconButton>
+                                  <IconButton
+                                    aria-label="delete"
+                                    onClick={item.addItem}
+                                  >
+                                    <AddIcon
+                                      sx={{
+                                        fill: "red",
+                                        // width: "90%",
+                                      }}
+                                    />
+                                  </IconButton>
+                                </Stack>
+                              )}
+                            </React.Fragment>
+                          }
+                          nodeId={item.id.toString()}
+                          key={item.id}
+                        >
+                          {item.subCategory.map((subItem) => (
+                            <TreeItem
+                              nodeId={subItem.id.toString()}
+                              label={
+                                <React.Fragment>
+                                  {subItem.title}
+                                  {currentNode == subItem.id && (
+                                    <Stack
+                                      direction="row"
+                                      spacing={1}
+                                      sx={{
+                                        display: "inline-block",
+                                      }}
+                                    >
+                                      <IconButton
+                                        aria-label="delete"
+                                        onClick={subItem.deleteItem}
+                                      >
+                                        <DeleteIcon
+                                          sx={{
+                                            fill: "red",
+                                            // width: "90%",
+                                          }}
+                                        />
+                                      </IconButton>
+                                      <IconButton
+                                        aria-label="delete"
+                                        onClick={subItem.editItem}
+                                      >
+                                        <ModeEditIcon
+                                          sx={{
+                                            fill: "red",
+                                            // width: "90%",
+                                          }}
+                                        />
+                                      </IconButton>
+                                      <IconButton
+                                        aria-label="delete"
+                                        onClick={subItem.addItem}
+                                      >
+                                        <AddIcon
+                                          sx={{
+                                            fill: "red",
+                                            // width: "90%",
+                                          }}
+                                        />
+                                      </IconButton>
+                                    </Stack>
+                                  )}
+                                </React.Fragment>
+                              }
+                              key={subItem.id}
+                            >
+                              {subItem.subCategory.map((opt) => (
+                                <TreeItem
+                                  nodeId={opt.id.toString()}
+                                  label={
+                                    <React.Fragment>
+                                      {opt.title}
+                                      {currentNode == opt.id && (
+                                        <Stack
+                                          direction="row"
+                                          spacing={1}
+                                          sx={{
+                                            display: "inline-block",
+                                          }}
+                                        >
+                                          <IconButton
+                                            aria-label="delete"
+                                            onClick={opt.deleteItem}
+                                          >
+                                            <DeleteIcon
+                                              sx={{
+                                                fill: "red",
+                                                // width: "90%",
+                                              }}
+                                            />
+                                          </IconButton>
+                                          <IconButton
+                                            aria-label="delete"
+                                            onClick={opt.editItem}
+                                          >
+                                            <ModeEditIcon
+                                              sx={{
+                                                fill: "red",
+                                                // width: "90%",
+                                              }}
+                                            />
+                                          </IconButton>
+                                          <IconButton
+                                            aria-label="delete"
+                                            onClick={opt.addItem}
+                                          >
+                                            <AddIcon
+                                              sx={{
+                                                fill: "red",
+                                                // width: "90%",
+                                              }}
+                                            />
+                                          </IconButton>
+                                        </Stack>
+                                      )}
+                                    </React.Fragment>
+                                  }
+                                  key={opt.id}
+                                ></TreeItem>
+                              ))}
+                            </TreeItem>
+                          ))}
+                        </TreeItem>
+                      ))}
                   </TreeView>
                 )}
               />
             </Box>
           </form>
+          {showEditPanel && (
+            <Box>
+              <button
+                onClick={() => {
+                  setShowEditPanel(false);
+                }}
+              >
+                {" "}
+                Close
+              </button>
+              Edit Panel
+            </Box>
+          )}
+          {showAddPanel && (
+            <Box>
+              <button
+                onClick={() => {
+                  setShowAddPanel(false);
+                }}
+              >
+                {" "}
+                Close
+              </button>
+           <Add parent={currentNode} getData={getData}/>
+            </Box>
+          )}
         </Box>
       </Container>
     </React.Fragment>

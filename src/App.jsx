@@ -123,8 +123,7 @@ export default function App() {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" noWrap component="div">
-              <Link  to={"/"}>  Digit Dashboard</Link>
-            
+              <Link to={"/"}> Digit Dashboard</Link>
             </Typography>
           </Toolbar>
         </AppBar>
@@ -166,8 +165,6 @@ export default function App() {
                 </Link>
               </ListItemButton>
 
-
-
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -191,7 +188,6 @@ export default function App() {
                   />
                 </Link>
               </ListItemButton>
-
             </ListItem>
           </List>
         </Drawer>

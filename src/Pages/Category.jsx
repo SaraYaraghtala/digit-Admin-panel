@@ -347,7 +347,7 @@ const Category = () => {
                 {" "}
                 Close
               </button>
-              < Edit  itemId={currentNode}/>
+              < Edit  itemId={currentNode} setShowEditPanel={setShowEditPanel} refreshTree={getData} setCurrentNode={setCurrentNode}/>
             </Box>
           )}
           {showAddPanel && (

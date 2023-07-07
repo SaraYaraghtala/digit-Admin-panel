@@ -116,7 +116,10 @@ const Edit = ({itemId}) => {
                 </Button>
               </Box>
             </form>
-            <img src={import.meta.env.VITE_BASE_URL+(itemData.attributes?.icon.data!=null)?itemData.attributes?.icon.data[0]?.attributes.url:""} alt="" />
+            {/* <img src={import.meta.env.VITE_BASE_URL+(itemData.attributes?.icon.data!=null)?itemData.attributes?.icon.data[0]?.attributes.url:""} alt="" /> */}
+
+            <img src={import.meta.env.VITE_BASE_URL + ((itemData.attributes?.icon?.data != null && itemData.attributes.icon.data[0]?.attributes.url) || '')} alt="" />
+
       
         </div>
     );

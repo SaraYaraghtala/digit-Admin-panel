@@ -14,6 +14,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import Stack from "@mui/material/Stack";
 import Add from "../components/Category/Add";
+import Edit  from "../components/Category/Edit";
 
 const Category = () => {
   const [menuData, setMenuData] = useState([]);
@@ -346,7 +347,7 @@ const Category = () => {
                 {" "}
                 Close
               </button>
-              Edit Panel
+              < Edit  itemId={currentNode}/>
             </Box>
           )}
           {showAddPanel && (

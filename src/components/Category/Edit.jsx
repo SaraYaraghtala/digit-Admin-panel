@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
-import Alert from "@mui/material/Alert";
+// import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
 
 const Edit = ({ itemId,setShowEditPanel,refreshTree,setCurrentNode}) => {
@@ -122,12 +122,14 @@ const Edit = ({ itemId,setShowEditPanel,refreshTree,setCurrentNode}) => {
     
 
       <img
+       sx={{ width: "80px", height: "80px", marginBottom: "10px" }}
         src={
           import.meta.env.VITE_BASE_URL +
           ((itemData?.attributes?.icon?.data != null &&
             itemData.attributes.icon.data[0]?.attributes.url) ||
             "")
         }
+        
         alt=""
       />
     </div>

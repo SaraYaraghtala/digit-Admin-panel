@@ -5,14 +5,37 @@ import AddIcon from "@mui/icons-material/Add";
 // import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
 
+import { FormControl, FormHelperText, InputLabel, Input } from "@mui/material";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+
+
+
 const Edit = ({ itemId,setShowEditPanel,refreshTree,setCurrentNode}) => {
   const [imageId, setImageId] = useState();
   const [itemData, setItemData] = useState();
   const [title,setTitle]= useState("");
-  const [parent,setParent]=useState(0)
+  const [parent,setParent]=useState(0);
+
+  const [imageFile, setImageFile] = useState(null);
+const [uploadedImageUrl, setUploadedImageUrl] = useState(
+  itemData?.attributes?.icon?.data[0]?.attributes.url || ""
+)
+
+
   useEffect(() => {
     getData();
   }, [itemId]);
+
+  // useEffect(() => {
+  //   if (itemData) {
+  //     setTitle(itemData.attributes.title);
+  //     setImageId(itemData.attributes.icon.data[0].id);
+  //     setParent(itemData.attributes.parent);
+  //     setUploadedImageUrl(
+  //       itemData.attributes.icon.data[0].attributes.url || ""
+  //     );
+  //   }
+  // }, [itemData]);
 
   const getData = () => {
     fetch(
@@ -56,6 +79,8 @@ const Edit = ({ itemId,setShowEditPanel,refreshTree,setCurrentNode}) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(formData),
+
+          // body: JSON.stringify({ data: formData }),
         }
       );
 
@@ -72,6 +97,60 @@ const Edit = ({ itemId,setShowEditPanel,refreshTree,setCurrentNode}) => {
       console.error("Error posting data to Strapi:", error);
     }
   };
+
+
+  const uploadImage = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("files", imageFile);
+  
+      const response = await fetch(
+        import.meta.env.VITE_BASE_URL + "/api/upload",
+        {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + import.meta.env.VITE_API_KEY,
+          },
+          body: formData,
+        }
+      );
+  
+      if (response.ok) {
+        const result = await response.json();
+        const imageUrl = result[0]?.url || "";
+        console.log (result)
+
+  
+        setUploadedImageUrl(imageUrl);
+        setImageId(result[0].id);
+  
+        setItemData((prevItemData) => ({
+          ...prevItemData,
+          attributes: {
+            ...prevItemData.attributes,
+            icon: {
+              data: [
+                {
+                  attributes: {
+                    url: imageUrl,
+                  },
+                },
+              ],
+            },
+          },
+        }));
+  
+        console.log("Image uploaded successfully:", result);
+      } else {
+        console.error("Error uploading image:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  };
+  
+  
+  
 
   return (
     <div>
@@ -109,6 +188,32 @@ const Edit = ({ itemId,setShowEditPanel,refreshTree,setCurrentNode}) => {
             }}
           />
 
+            <FormControl sx={{ marginTop: "10px", width: "60%" }}>
+                <InputLabel htmlFor="icon-upload" shrink>
+                  Icon Upload
+                </InputLabel>
+                <Input
+                  id="icon-upload"
+                  type="file"
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    setImageFile(file);
+                  }}
+                />
+                <FormHelperText>
+                  {imageFile ? imageFile.name : "Choose an image file"}
+                </FormHelperText>
+                <Button
+                  variant="contained"
+                  component="label"
+                  startIcon={<CloudUploadIcon />}
+                  onClick={uploadImage}
+                  disabled={!imageFile}
+                >
+                  Upload
+                </Button>
+              </FormControl>
+
           <Button
             variant="outlined"
             color="info"
@@ -122,7 +227,7 @@ const Edit = ({ itemId,setShowEditPanel,refreshTree,setCurrentNode}) => {
     
 
       <img
-       sx={{ width: "80px", height: "80px", marginBottom: "10px" }}
+       style={{ width: "80px", height: "80px", marginBottom: "10px" }}
         src={
           import.meta.env.VITE_BASE_URL +
           ((itemData?.attributes?.icon?.data != null &&

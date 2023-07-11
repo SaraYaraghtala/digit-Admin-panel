@@ -8,7 +8,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 
-const Add = ({ parent, getData }) => {
+const Add = ({ parent, getData, setCurrentNode,setShowAddPanel }) => {
   const {
     handleSubmit,
     register,
@@ -65,6 +65,8 @@ const Add = ({ parent, getData }) => {
         const result = await response.json();
         console.log("Data successfully posted to Strapi:", result);
         getData();
+        setCurrentNode(-1)
+        setShowAddPanel(false)
       } else {
         console.error("Error posting data to Strapi:", response.statusText);
       }

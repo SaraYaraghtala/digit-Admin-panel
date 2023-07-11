@@ -15,11 +15,8 @@ const Edit = ({ itemId,setShowEditPanel,refreshTree,setCurrentNode}) => {
   const [itemData, setItemData] = useState();
   const [title,setTitle]= useState("");
   const [parent,setParent]=useState(0);
-
   const [imageFile, setImageFile] = useState(null);
-const [uploadedImageUrl, setUploadedImageUrl] = useState(
-  itemData?.attributes?.icon?.data[0]?.attributes.url || ""
-)
+
 
 
   useEffect(() => {
@@ -110,7 +107,7 @@ const [uploadedImageUrl, setUploadedImageUrl] = useState(
         console.log (result)
 
   
-        setUploadedImageUrl(imageUrl);
+      
         setImageId(result[0].id);
   
         setItemData((prevItemData) => ({
@@ -149,7 +146,7 @@ const [uploadedImageUrl, setUploadedImageUrl] = useState(
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            height: "100%",
+            height: "10%",
             padding: "2px",
             marginLeft: "30px",
             marginRight: "30px",

@@ -78,11 +78,10 @@ const Add = ({ parent, getData, setCurrentNode,setShowAddPanel }) => {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth="lg">
+  
         <Box
           sx={{
-            bgcolor: "#cfe8fc",
-            height: "100vh",
+           height: "100%",
             borderRadius: "5px",
             padding: "2px",
           }}
@@ -148,7 +147,7 @@ const Add = ({ parent, getData, setCurrentNode,setShowAddPanel }) => {
             </Box>
           )}
         </Box>
-      </Container>
+    
     </React.Fragment>
   );
 };

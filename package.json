@@ -15,6 +15,7 @@
     "@mui/icons-material": "^5.11.16",
     "@mui/lab": "^5.0.0-alpha.134",
     "@mui/material": "^5.13.6",
+    "@mui/x-data-grid": "^6.9.2",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
     "react": "^17.0.0 || ^18.0.0",

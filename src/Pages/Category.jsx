@@ -121,23 +121,13 @@ const Category = () => {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth="md">
-        <Box
-          sx={{
-            bgcolor: "#cfe8fc",
-            height: "100vh",
-            borderRadius: "5px",
-            padding: "2px",
-          }}
-        >
-          <form onSubmit={handleSubmit(onSubmit)}>
+      
+          <form onSubmit={handleSubmit(onSubmit)} >
             <Box
               sx={{
                 display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
                 justifyContent: "center",
-                height: "100%",
+                height: "70%",
                 padding: "2px",
                 marginLeft: "30px",
                 marginRight: "30px",
@@ -371,8 +361,7 @@ const Category = () => {
               <Add parent={currentNode} getData={getData}    setCurrentNode={setCurrentNode} setShowAddPanel={setShowAddPanel} />
             </Box>
           )}
-        </Box>
-      </Container>
+        
     </React.Fragment>
   );
 };

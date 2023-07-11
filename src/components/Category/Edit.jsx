@@ -26,17 +26,6 @@ const [uploadedImageUrl, setUploadedImageUrl] = useState(
     getData();
   }, [itemId]);
 
-  // useEffect(() => {
-  //   if (itemData) {
-  //     setTitle(itemData.attributes.title);
-  //     setImageId(itemData.attributes.icon.data[0].id);
-  //     setParent(itemData.attributes.parent);
-  //     setUploadedImageUrl(
-  //       itemData.attributes.icon.data[0].attributes.url || ""
-  //     );
-  //   }
-  // }, [itemData]);
-
   const getData = () => {
     fetch(
       import.meta.env.VITE_BASE_URL +

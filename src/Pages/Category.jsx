@@ -14,7 +14,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import Stack from "@mui/material/Stack";
 import Add from "../components/Category/Add";
-import Edit  from "../components/Category/Edit";
+import Edit from "../components/Category/Edit";
 
 const Category = () => {
   const [menuData, setMenuData] = useState([]);
@@ -70,6 +70,7 @@ const Category = () => {
       .then((response) => response.json())
       .then((result) => {
         setMenuData(result.data);
+        console.log (result.data)
       });
   };
 
@@ -120,7 +121,7 @@ const Category = () => {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth="lg">
+      <Container maxWidth="md">
         <Box
           sx={{
             bgcolor: "#cfe8fc",
@@ -188,6 +189,7 @@ const Category = () => {
                                     <DeleteIcon
                                       sx={{
                                         fill: "red",
+                                        fontSize:20
                                         // width: "90%",
                                       }}
                                     />
@@ -199,6 +201,7 @@ const Category = () => {
                                     <ModeEditIcon
                                       sx={{
                                         fill: "red",
+                                        fontSize:20
                                         // width: "90%",
                                       }}
                                     />
@@ -347,7 +350,12 @@ const Category = () => {
                 {" "}
                 Close
               </button>
-              < Edit  itemId={currentNode} setShowEditPanel={setShowEditPanel} refreshTree={getData} setCurrentNode={setCurrentNode}/>
+              <Edit
+                itemId={currentNode}
+                setShowEditPanel={setShowEditPanel}
+                refreshTree={getData}
+                setCurrentNode={setCurrentNode}
+              />
             </Box>
           )}
           {showAddPanel && (
@@ -360,7 +368,7 @@ const Category = () => {
                 {" "}
                 Close
               </button>
-           <Add parent={currentNode} getData={getData}/>
+              <Add parent={currentNode} getData={getData}    setCurrentNode={setCurrentNode} setShowAddPanel={setShowAddPanel} />
             </Box>
           )}
         </Box>

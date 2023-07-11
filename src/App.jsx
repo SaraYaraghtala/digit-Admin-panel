@@ -59,14 +59,14 @@ const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
-  backgroundColor: "red",
+  backgroundColor: "#EE384E",
   transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
     marginLeft: drawerWidth,
-    backgroundColor: "red",
+    backgroundColor: "#EE384E",
     width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
@@ -122,8 +122,8 @@ export default function App() {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" noWrap component="div">
-              <Link to={"/"}> Digit Dashboard</Link>
+            <Typography variant="h6" noWrap component="div" sx={{ textDecoration: 'none' }}>
+              <Link to={"/"} style={{ textDecoration: 'none' , color: '#FFFFFF'}}> Digit Dashboard</Link>
             </Typography>
           </Toolbar>
         </AppBar>
@@ -141,53 +141,61 @@ export default function App() {
 
           <List>
             <ListItem disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
+              <Link
+                to={"/product"}
+                style={{ textDecoration: "none", color: "inherit" }}
               >
-                <ListItemIcon
+                <ListItemButton
                   sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
                   }}
                 >
-                  <MailIcon />
-                </ListItemIcon>
-                <Link to={"product"}>
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <MailIcon />
+                  </ListItemIcon>
                   <ListItemText
-                    primary={"product management"}
+                    primary={"Product Management"}
                     sx={{ opacity: open ? 1 : 0 }}
                   />
-                </Link>
-              </ListItemButton>
+                </ListItemButton>
+              </Link>
+            </ListItem>
 
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
+            <ListItem disablePadding sx={{ display: "block" }}>
+              <Link
+                to={"/category"}
+                style={{ textDecoration: "none", color: "inherit" }}
               >
-                <ListItemIcon
+                <ListItemButton
                   sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
                   }}
                 >
-                  <MailIcon />
-                </ListItemIcon>
-                <Link to={"category"}>
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <MailIcon />
+                  </ListItemIcon>
                   <ListItemText
-                    primary={"category management"}
+                    primary={"Category Management"}
                     sx={{ opacity: open ? 1 : 0 }}
                   />
-                </Link>
-              </ListItemButton>
+                </ListItemButton>
+              </Link>
             </ListItem>
           </List>
         </Drawer>

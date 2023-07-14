@@ -144,6 +144,7 @@ const ProductList = () => {
         <Box
           sx={{
             width:"60%",
+            marginBottom: "10px" ,
             borderRadius: "20px",
             backgroundColor: "#FFF",
             boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
@@ -166,6 +167,7 @@ const ProductList = () => {
         <Box
           sx={{
             width: "60%",
+            marginBottom: "10px" ,
             borderRadius: "20px",
             backgroundColor: "#FFF",
             boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",

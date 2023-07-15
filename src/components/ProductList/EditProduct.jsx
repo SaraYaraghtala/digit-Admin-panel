@@ -14,6 +14,8 @@ import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
+import { FormControl, FormHelperText, Input } from "@mui/material";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -29,6 +31,10 @@ const MenuProps = {
 const EditProduct = () => {
   const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [imageId, setImageId] = useState();
+  const [imageFile, setImageFile] = useState(null);
+  const [itemData, setItemData] = useState({});
+  
 
   const handleChange = (event) => {
     const {
@@ -103,6 +109,58 @@ const EditProduct = () => {
       console.error("Error posting data to Strapi:", error);
     }
   };
+
+
+  const uploadImage = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("files", imageFile);
+  
+      const response = await fetch(
+        import.meta.env.VITE_BASE_URL + "/api/upload",
+        {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + import.meta.env.VITE_API_KEY,
+          },
+          body: formData,
+        }
+      );
+  
+      if (response.ok) {
+        const result = await response.json();
+        const imageUrl = result[0]?.url || "";
+        console.log (result)
+
+  
+      
+        setImageId(result[0].id);
+  
+        setItemData((prevItemData) => ({
+          ...prevItemData,
+          attributes: {
+            ...prevItemData.attributes,
+            icon: {
+              data: [
+                {
+                  attributes: {
+                    url: imageUrl,
+                  },
+                },
+              ],
+            },
+          },
+        }));
+  
+        console.log("Image uploaded successfully:", result);
+      } else {
+        console.error("Error uploading image:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  };
+
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -280,6 +338,45 @@ const EditProduct = () => {
             </Select>
           </div>
 
+
+          <FormControl sx={{ marginTop: "10px", width: "60%" , border: "1px solid #ccc", borderRadius: "4px", padding: "8px"}}>
+          <img
+       style={{ width: "80px", height: "80px", marginBottom: "10px" }}
+        src={
+          import.meta.env.VITE_BASE_URL +
+          ((itemData?.attributes?.icon?.data != null &&
+            itemData.attributes.icon.data[0]?.attributes?.url) ||
+            "")
+        }
+        
+        alt=""
+      />
+                <InputLabel htmlFor="icon-upload" shrink>
+                  Icon Upload
+                </InputLabel>
+                <Input
+                  id="icon-upload"
+                  type="file"
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    setImageFile(file);
+                  }}
+                />
+                <FormHelperText>
+                  {imageFile ? imageFile.name : "Choose an image file"}
+
+                </FormHelperText>
+                <Button
+                  variant="contained"
+                  component="label"
+                  startIcon={<CloudUploadIcon />}
+                  onClick={uploadImage}
+                  disabled={!imageFile}
+                >
+                  Upload
+                </Button>
+              </FormControl>
+
           <Button
             variant="outlined"
             color="info"
@@ -291,6 +388,8 @@ const EditProduct = () => {
           </Button>
         </Box>
       </form>
+
+   
     </div>
   );
 };

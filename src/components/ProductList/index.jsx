@@ -15,6 +15,7 @@ const ProductList = () => {
   const [productData, setProductData] = useState([]);
   const [showEditPanel, setShowEditPanel] = useState(false);
   const [showAddPanel, setShowAddPanel] = useState(false);
+  const [productId,setProductId]=useState(0);
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
     {
@@ -82,14 +83,15 @@ const ProductList = () => {
         <Stack direction="row" spacing={3}>
           <IconButton
             color="error"
-            onClick={() => setShowEditPanel(true)} // Replace with your own edit function
+            onClick={() => {setShowEditPanel(true);
+            setProductId(params.row.id)}} 
             style={{ borderRadius: 0 }}
           >
             <EditIcon />
           </IconButton>
           <IconButton
             color="error"
-            onClick={() => handleDelete(params.row.id)} // Replace with your own delete function
+            onClick={() => handleDelete(params.row.id)} 
             style={{ borderRadius: 0 }}
           >
             <DeleteIcon />
@@ -102,6 +104,21 @@ const ProductList = () => {
   useEffect(() => {
     getData();
   }, []);
+
+  useEffect(()=>{
+    getProductData()
+  },[productId])
+
+  const getProductData = () => {
+    fetch(import.meta.env.VITE_BASE_URL + "/api/products/"+productId+"?populate=*", {
+      headers: { Authorization: "bearer " + import.meta.env.VITE_API_KEY },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => console.log(error));
+  };
 
   const getData = () => {
     fetch(import.meta.env.VITE_BASE_URL + "/api/products?populate=*", {
@@ -183,13 +200,8 @@ const ProductList = () => {
       
             <CloseIcon style={{ color: "#EE384E" }} />
           </IconButton>
-          show new thing
-          {/* <Add
-            parent={currentNode}
-            getData={getData}
-            setCurrentNode={setCurrentNode}
-            setShowAddPanel={setShowAddPanel}
-          /> */}
+          < AddProduct />
+       
         </Box>
       )}
 

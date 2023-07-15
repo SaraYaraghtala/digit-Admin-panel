@@ -8,7 +8,6 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Controller, useForm } from "react-hook-form";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
@@ -338,22 +337,21 @@ const Category = () => {
             right: 40,
             width: "40%",
             height: "40%",
-      
             borderRadius: "20px",
             backgroundColor: "#FFF",
             boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
             marginTop: "40px",
           }}
         >
-          <button
+          <IconButton
             onClick={() => {
               setShowEditPanel(false);
             }}
-            style={{ borderRadius: "0" }}
+      
           >
             {" "}
             < CloseIcon style={{ color: "#EE384E" }}/>
-          </button>
+          </IconButton>
           <Edit
             itemId={currentNode}
             setShowEditPanel={setShowEditPanel}
@@ -377,15 +375,14 @@ const Category = () => {
           marginTop: "40px",
         }}
         >
-          <button
+          <IconButton
             onClick={() => {
               setShowAddPanel(false);
             }}
-            style={{ borderRadius: "" }}
           >
             {" "}
           < CloseIcon style={{ color: "#EE384E" }}/>
-          </button>
+          </IconButton>
           <Add
             parent={currentNode}
             getData={getData}

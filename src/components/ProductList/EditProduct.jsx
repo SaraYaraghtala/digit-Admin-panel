@@ -28,7 +28,7 @@ const MenuProps = {
   },
 };
 
-const EditProduct = () => {
+const EditProduct = ({formData}) => {
   const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [imageId, setImageId] = useState();
@@ -52,24 +52,14 @@ const EditProduct = () => {
     formState: { errors },
   } = useForm();
 
-  useEffect(() => {
-    getData();
-  }, []);
+ 
 
-  const getData = () => {
-    fetch(import.meta.env.VITE_BASE_URL + "/api/categories", {
-      headers: { Authorization: "bearer " + import.meta.env.VITE_API_KEY },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        const tempRow = data.data.map((item) => {
-          return { id: item.id, title: item.attributes.title };
-        });
-        setCategories(tempRow);
-        console.log(tempRow);
-      })
-      .catch((error) => console.log(error));
-  };
+
+  useEffect(() => {
+    console.log(formData) 
+  }, [formData]);
+
+ 
 
   const onSubmit = async (data) => {
     try {
@@ -186,6 +176,7 @@ const EditProduct = () => {
             <TextField
               label="title"
               {...register("title", { required: true })}
+              defaultValue={formData.title}
               sx={{
                 marginBottom: "10px",
                 width: "40%",
@@ -206,6 +197,7 @@ const EditProduct = () => {
             <TextField
               label="price"
               {...register("price", { required: true })}
+              defaultValue={formData.price}
               sx={{
                 marginBottom: "10px",
                 width: "40%",
@@ -234,6 +226,7 @@ const EditProduct = () => {
             <TextField
               label="oldprice"
               {...register("oldprice", { required: true })}
+              defaultValue={formData.oldprice}
               sx={{
                 marginBottom: "10px",
                 width: "40%",
@@ -254,6 +247,7 @@ const EditProduct = () => {
             <TextField
               label="discount"
               {...register("discount", { required: true })}
+              defaultValue={formData.discount}
               sx={{
                 marginBottom: "10px",
                 width: "40%",
@@ -289,7 +283,7 @@ const EditProduct = () => {
               <Typography sx={{ marginRight: "12px" }}>
                 show in baner
               </Typography>
-              <FormControlLabel control={<Switch />} />
+              <FormControlLabel control={<Switch    defaultChecked={formData.showinbaner}/>} />
             </div>
             <div
               style={{ width: "40%", display: "flex", alignItems: "center" }}
@@ -297,7 +291,7 @@ const EditProduct = () => {
               <Typography sx={{ marginRight: "12px" }}>
                 show in carousel
               </Typography>
-              <FormControlLabel control={<Switch />} />
+              <FormControlLabel control={<Switch   defaultChecked={formData.showincarousel}/>} />
             </div>
           </div>
           <div >

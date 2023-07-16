@@ -10,12 +10,14 @@ import Stack from "@mui/material/Stack";
 import CloseIcon from "@mui/icons-material/Close";
 import { set } from "react-hook-form";
 import EditProduct from "./EditProduct";
+import AddProduct from "./AddProduct"
 
 const ProductList = () => {
   const [productData, setProductData] = useState([]);
   const [showEditPanel, setShowEditPanel] = useState(false);
   const [showAddPanel, setShowAddPanel] = useState(false);
   const [productId,setProductId]=useState(0);
+  const [formData, setFormData] = useState({});
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
     {
@@ -84,7 +86,9 @@ const ProductList = () => {
           <IconButton
             color="error"
             onClick={() => {setShowEditPanel(true);
-            setProductId(params.row.id)}} 
+            setProductId(params.row.id)
+            setFormData(params.row)
+          }} 
             style={{ borderRadius: 0 }}
           >
             <EditIcon />
@@ -105,20 +109,21 @@ const ProductList = () => {
     getData();
   }, []);
 
-  useEffect(()=>{
-    getProductData()
-  },[productId])
+  // useEffect(()=>{
+  //   getProductData()
+  // },[productId])
 
-  const getProductData = () => {
-    fetch(import.meta.env.VITE_BASE_URL + "/api/products/"+productId+"?populate=*", {
-      headers: { Authorization: "bearer " + import.meta.env.VITE_API_KEY },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => console.log(error));
-  };
+  // const getProductData = () => {
+  //   fetch(import.meta.env.VITE_BASE_URL + "/api/products/"+productId+"?populate=*", {
+  //     headers: { Authorization: "bearer " + import.meta.env.VITE_API_KEY },
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //       setFormData(data.data)
+  //     })
+  //     .catch((error) => console.log(error));
+  // };
 
   const getData = () => {
     fetch(import.meta.env.VITE_BASE_URL + "/api/products?populate=*", {
@@ -171,12 +176,13 @@ const ProductList = () => {
           <IconButton
             onClick={() => {
               setShowEditPanel(false);
+         
             }}
           
           >
             <CloseIcon style={{ color: "#EE384E" }} />
           </IconButton>
-          < EditProduct/>
+          < EditProduct formData={formData}/>
           
         </Box>
       )}

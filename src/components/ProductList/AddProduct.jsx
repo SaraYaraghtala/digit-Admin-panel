@@ -8,7 +8,6 @@ import Box from "@mui/material/Box";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import Typography from "@mui/material/Typography";
-import { Category } from "@mui/icons-material";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
@@ -16,6 +15,12 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 
 const AddProduct = () => {
+
+  const [categories, setCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [imageId, setImageId] = useState();
+  const [imageFile, setImageFile] = useState(null);
+  const [itemData, setItemData] = useState({});
 
    
 

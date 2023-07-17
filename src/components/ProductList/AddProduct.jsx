@@ -17,66 +17,7 @@ import InputLabel from "@mui/material/InputLabel";
 
 const AddProduct = () => {
 
-    const [categories, setCategories] = useState([]);
-    const [selectedCategories, setSelectedCategories] = useState([]);
-  
-    const handleChange = (event) => {
-      const {
-        target: { value },
-      } = event;
-      setSelectedCategories(
-        // On autofill we get a stringified value.
-        typeof value === "string" ? value.split(",") : value
-      );
-    };
-  
-    const {
-      handleSubmit,
-      register,
-      formState: { errors },
-    } = useForm();
-
-    
-    
-    const onSubmit = async (data) => {
-        try {
-          const formData = {
-            data: {
-              title: data.title,
-              icon: [imageId],
-              parent: parent,
-            },
-          };
-    
-          console.log(formData);
-    
-          const response = await fetch(
-            import.meta.env.VITE_BASE_URL + "/api/categories",
-            {
-              method: "POST",
-              headers: {
-                Authorization: "bearer " + import.meta.env.VITE_API_KEY,
-                accept: "application/json",
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(formData),
-            }
-          );
-    
-          if (response.ok) {
-            const result = await response.json();
-            console.log("Data successfully posted to Strapi:", result);
-            getData();
-            setCurrentNode(-1);
-            setShowAddPanel(false);
-          } else {
-            console.error("Error posting data to Strapi:", response.statusText);
-          }
-        } catch (error) {
-          console.error("Error posting data to Strapi:", error);
-        }
-      };
-
+   
 
 
 

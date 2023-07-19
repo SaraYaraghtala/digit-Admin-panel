@@ -39,7 +39,7 @@ const AddProduct = () => {
   } = useForm();
    
 
-
+  longestCommonPrefix( ["flower","flow","flight"])
 
       
 

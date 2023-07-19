@@ -18,9 +18,7 @@ const AddProduct = () => {
 
   const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [imageId, setImageId] = useState();
-  const [imageFile, setImageFile] = useState(null);
-  const [itemData, setItemData] = useState({});
+ 
 
   const handleChange = (event) => {
     const {
@@ -32,11 +30,7 @@ const AddProduct = () => {
     );
   };
 
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = useForm();
+  
    
 
   longestCommonPrefix( ["flower","flow","flight"])

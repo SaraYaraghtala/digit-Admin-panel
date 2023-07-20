@@ -15,20 +15,12 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 
 const AddProduct = () => {
-
   const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
- 
-
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setSelectedCategories(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
-  };
+  const [imageId, setImageId] = useState();
+  const [imageFile, setImageFile] = useState(null);
+  const [itemData, setItemData] = useState({});
+  
 
   
    

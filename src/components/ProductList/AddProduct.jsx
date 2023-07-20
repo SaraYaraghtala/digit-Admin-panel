@@ -20,6 +20,31 @@ const AddProduct = () => {
   const [imageId, setImageId] = useState();
   const [imageFile, setImageFile] = useState(null);
   const [itemData, setItemData] = useState({});
+
+
+
+  const handleChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setSelectedCategories(
+      // On autofill we get a stringified value.
+      typeof value === "string" ? value.split(",") : value
+    );
+  };
+
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm();
+
+ 
+
+
+  useEffect(() => {
+    console.log(formData) 
+  }, [formData]);
   
 
   

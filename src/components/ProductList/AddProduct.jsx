@@ -156,194 +156,239 @@ const AddProduct = () => {
 
     return (
       
-    <div>
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          height: "100%",
-          padding: "2px",
-          marginLeft: "30px",
-          marginRight: "30px",
-        }}
-      >
-        <div
-          style={{
+      <div>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Box
+          sx={{
             display: "flex",
-            justifyContent: "space-between",
-            width: "100%",
-          }}
-        >
-          <TextField
-            label="title"
-            {...register("title", { required: true })}
-            sx={{
-              marginBottom: "10px",
-              width: "40%",
-              "& .MuiFormHelperText-root": {
-                color: "#02A2E4",
-              },
-              "& .MuiOutlinedInput-root": {
-                borderRadius: "10px",
-                "& fieldset": {
-                  borderColor: " #73A5D3",
-                },
-              },
-            }}
-          />
-          {errors.title && (
-            <Alert severity="error">this field is required??</Alert>
-          )}
-          <TextField
-            label="price"
-            {...register("price", { required: true })}
-            sx={{
-              marginBottom: "10px",
-              width: "40%",
-              "& .MuiFormHelperText-root": {
-                color: "#02A2E4",
-              },
-              "& .MuiOutlinedInput-root": {
-                borderRadius: "10px",
-                "& fieldset": {
-                  borderColor: " #73A5D3",
-                },
-              },
-            }}
-          />
-          {errors.price && (
-            <Alert severity="error">this field is required??</Alert>
-          )}
-        </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            width: "100%",
-          }}
-        >
-          <TextField
-            label="oldprice"
-            {...register("oldprice", { required: true })}
-            sx={{
-              marginBottom: "10px",
-              width: "40%",
-              "& .MuiFormHelperText-root": {
-                color: "#02A2E4",
-              },
-              "& .MuiOutlinedInput-root": {
-                borderRadius: "10px",
-                "& fieldset": {
-                  borderColor: " #73A5D3",
-                },
-              },
-            }}
-          />
-          {errors.oldprice && (
-            <Alert severity="error">this field is required??</Alert>
-          )}
-          <TextField
-            label="discount"
-            {...register("discount", { required: true })}
-            sx={{
-              marginBottom: "10px",
-              width: "40%",
-              "& .MuiFormHelperText-root": {
-                color: "#02A2E4",
-              },
-              "& .MuiOutlinedInput-root": {
-                borderRadius: "10px",
-                "& fieldset": {
-                  borderColor: " #73A5D3",
-                },
-              },
-            }}
-          />
-          {errors.discount && (
-            <Alert severity="error">this field is required??</Alert>
-          )}
-        </div>
-
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            width: "100%",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100%",
+            padding: "2px",
+            marginLeft: "30px",
+            marginRight: "30px",
           }}
         >
           <div
             style={{
               display: "flex",
-              alignItems: "center",
+              justifyContent: "space-between",
+              width: "100%",
             }}
           >
-            <Typography sx={{ marginRight: "12px" }}>
-              show in baner
-            </Typography>
-            <FormControlLabel control={<Switch />} />
+            <TextField
+              label="title"
+              {...register("title", { required: true })}
+              defaultValue={formData.title}
+              sx={{
+                marginBottom: "10px",
+                width: "40%",
+                "& .MuiFormHelperText-root": {
+                  color: "#02A2E4",
+                },
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "10px",
+                  "& fieldset": {
+                    borderColor: " #73A5D3",
+                  },
+                },
+              }}
+            />
+            {errors.title && (
+              <Alert severity="error">this field is required??</Alert>
+            )}
+            <TextField
+              label="price"
+              {...register("price", { required: true })}
+              defaultValue={formData.price}
+              sx={{
+                marginBottom: "10px",
+                width: "40%",
+                "& .MuiFormHelperText-root": {
+                  color: "#02A2E4",
+                },
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "10px",
+                  "& fieldset": {
+                    borderColor: " #73A5D3",
+                  },
+                },
+              }}
+            />
+            {errors.price && (
+              <Alert severity="error">this field is required??</Alert>
+            )}
           </div>
           <div
-            style={{ width: "40%", display: "flex", alignItems: "center" }}
-          >
-            <Typography sx={{ marginRight: "12px" }}>
-              show in carousel
-            </Typography>
-            <FormControlLabel control={<Switch />} />
-          </div>
-        </div>
-        <div >
-          <InputLabel id="demo-multiple-chip-label" >Categories</InputLabel>
-          <Select
-            labelId="demo-multiple-chip-label"
-            id="demo-multiple-chip"
-            multiple
-            value={selectedCategories}
-            onChange={handleChange}
-            input={
-              <OutlinedInput id="select-multiple-chip" label="Categories" />
-            }
-            renderValue={(selected) => (
-              <Box
-                sx={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: 0.5,
-                }}
-              >
-                {selected.map((value) => (
-                  <Chip key={value} label={value} />
-                ))}
-              </Box>
-            )}
-            MenuProps={MenuProps}
-            sx={{
-              minWidth: 250, // Set a minimum width for the Select component
-              marginTop: "10px",
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              width: "100%",
             }}
           >
-            {categories.map((item) => (
-              <MenuItem key={item.id} value={item.title}>
-                {item.title}
-              </MenuItem>
-            ))}
-          </Select>
-        </div>
+            <TextField
+              label="oldprice"
+              {...register("oldprice", { required: true })}
+              defaultValue={formData.oldprice}
+              sx={{
+                marginBottom: "10px",
+                width: "40%",
+                "& .MuiFormHelperText-root": {
+                  color: "#02A2E4",
+                },
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "10px",
+                  "& fieldset": {
+                    borderColor: " #73A5D3",
+                  },
+                },
+              }}
+            />
+            {errors.oldprice && (
+              <Alert severity="error">this field is required??</Alert>
+            )}
+            <TextField
+              label="discount"
+              {...register("discount", { required: true })}
+              defaultValue={formData.discount}
+              sx={{
+                marginBottom: "10px",
+                width: "40%",
+                "& .MuiFormHelperText-root": {
+                  color: "#02A2E4",
+                },
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "10px",
+                  "& fieldset": {
+                    borderColor: " #73A5D3",
+                  },
+                },
+              }}
+            />
+            {errors.discount && (
+              <Alert severity="error">this field is required??</Alert>
+            )}
+          </div>
 
-        <Button
-          variant="outlined"
-          color="info"
-          startIcon={<AddIcon />}
-          type="submit"
-          sx={{ marginTop: "10px", width: "15%" }}
-        >
-          Save
-        </Button>
-      </Box>
-    </form>
-  </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              width: "100%",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Typography sx={{ marginRight: "12px" }}>
+                show in baner
+              </Typography>
+              <FormControlLabel control={<Switch    defaultChecked={formData.showinbaner}/>} />
+            </div>
+            <div
+              style={{ width: "40%", display: "flex", alignItems: "center" }}
+            >
+              <Typography sx={{ marginRight: "12px" }}>
+                show in carousel
+              </Typography>
+              <FormControlLabel control={<Switch   defaultChecked={formData.showincarousel}/>} />
+            </div>
+          </div>
+          <div >
+            <InputLabel id="demo-multiple-chip-label" >Categories</InputLabel>
+            <Select
+              labelId="demo-multiple-chip-label"
+              id="demo-multiple-chip"
+              multiple
+              value={selectedCategories}
+              onChange={handleChange}
+              input={
+                <OutlinedInput id="select-multiple-chip" label="Categories" />
+              }
+              renderValue={(selected) => (
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: 0.5,
+                  }}
+                >
+                  {selected.map((value) => (
+                    <Chip key={value} label={value} />
+                  ))}
+                </Box>
+              )}
+              MenuProps={MenuProps}
+              sx={{
+                minWidth: 250, // Set a minimum width for the Select component
+                marginTop: "10px",
+              }}
+            >
+              {categories.map((item) => (
+                <MenuItem key={item.id} value={item.title}>
+                  {item.title}
+                </MenuItem>
+              ))}
+            </Select>
+          </div>
+
+
+          <FormControl sx={{ marginTop: "10px", width: "60%" , border: "1px solid #ccc", borderRadius: "4px", padding: "8px"}}>
+          <img
+       style={{ width: "80px", height: "80px", marginBottom: "10px" }}
+        src={
+          import.meta.env.VITE_BASE_URL +
+          ((itemData?.attributes?.icon?.data != null &&
+            itemData.attributes.icon.data[0]?.attributes?.url) ||
+            "")
+        }
+        
+        alt=""
+      />
+                <InputLabel htmlFor="icon-upload" shrink>
+                  Icon Upload
+                </InputLabel>
+                <Input
+                  id="icon-upload"
+                  type="file"
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    setImageFile(file);
+                  }}
+                />
+                <FormHelperText>
+                  {imageFile ? imageFile.name : "Choose an image file"}
+
+                </FormHelperText>
+                <Button
+                  variant="contained"
+                  component="label"
+                  startIcon={<CloudUploadIcon />}
+                  onClick={uploadImage}
+                  disabled={!imageFile}
+                >
+                  Upload
+                </Button>
+              </FormControl>
+
+          <Button
+            variant="outlined"
+            color="info"
+            startIcon={<AddIcon />}
+            type="submit"
+            sx={{ marginTop: "10px", width: "15%" }}
+          >
+            Save
+          </Button>
+        </Box>
+      </form>
+
+   
+    </div>
 
     );
 };

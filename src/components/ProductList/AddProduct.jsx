@@ -53,12 +53,7 @@ const AddProduct = () => {
     formState: { errors },
   } = useForm();
 
- 
 
-
-  useEffect(() => {
-    console.log(formData) 
-  }, [formData]);
 
  
 
@@ -180,7 +175,6 @@ const AddProduct = () => {
             <TextField
               label="title"
               {...register("title", { required: true })}
-              defaultValue={formData.title}
               sx={{
                 marginBottom: "10px",
                 width: "40%",
@@ -201,7 +195,6 @@ const AddProduct = () => {
             <TextField
               label="price"
               {...register("price", { required: true })}
-              defaultValue={formData.price}
               sx={{
                 marginBottom: "10px",
                 width: "40%",
@@ -230,7 +223,6 @@ const AddProduct = () => {
             <TextField
               label="oldprice"
               {...register("oldprice", { required: true })}
-              defaultValue={formData.oldprice}
               sx={{
                 marginBottom: "10px",
                 width: "40%",
@@ -251,7 +243,6 @@ const AddProduct = () => {
             <TextField
               label="discount"
               {...register("discount", { required: true })}
-              defaultValue={formData.discount}
               sx={{
                 marginBottom: "10px",
                 width: "40%",
@@ -287,7 +278,7 @@ const AddProduct = () => {
               <Typography sx={{ marginRight: "12px" }}>
                 show in baner
               </Typography>
-              <FormControlLabel control={<Switch    defaultChecked={formData.showinbaner}/>} />
+              <FormControlLabel control={<Switch/>} />
             </div>
             <div
               style={{ width: "40%", display: "flex", alignItems: "center" }}
@@ -295,7 +286,7 @@ const AddProduct = () => {
               <Typography sx={{ marginRight: "12px" }}>
                 show in carousel
               </Typography>
-              <FormControlLabel control={<Switch   defaultChecked={formData.showincarousel}/>} />
+              <FormControlLabel control={<Switch/>} />
             </div>
           </div>
           <div >

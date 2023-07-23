@@ -35,6 +35,11 @@ const AddProduct = () => {
   const [imageFile, setImageFile] = useState(null);
   const [itemData, setItemData] = useState({});
 
+  useEffect(() => {
+    getData();
+  }, []);
+  
+
 
 
   const handleChange = (event) => {
@@ -53,7 +58,20 @@ const AddProduct = () => {
     formState: { errors },
   } = useForm();
 
-
+  const getData = () => {
+    fetch(import.meta.env.VITE_BASE_URL + "/api/categories", {
+      headers: { Authorization: "bearer " + import.meta.env.VITE_API_KEY },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const tempRow = data.data.map((item) => {
+          return { id: item.id, title: item.attributes.title };
+        });
+        setCategories(tempRow);
+        console.log(tempRow);
+      })
+      .catch((error) => console.log(error));
+  };
 
  
 
@@ -261,7 +279,7 @@ const AddProduct = () => {
               <Alert severity="error">this field is required??</Alert>
             )}
           </div>
-
+                              
           <div
             style={{
               display: "flex",
@@ -289,6 +307,8 @@ const AddProduct = () => {
               <FormControlLabel control={<Switch/>} />
             </div>
           </div>
+
+          <div style={{display: "flex", alignItems: "center",justifyContent:"space-around" ,width:"100%"}}>
           <div >
             <InputLabel id="demo-multiple-chip-label" >Categories</InputLabel>
             <Select
@@ -315,7 +335,7 @@ const AddProduct = () => {
               )}
               MenuProps={MenuProps}
               sx={{
-                minWidth: 250, // Set a minimum width for the Select component
+                minWidth: 250,
                 marginTop: "10px",
               }}
             >
@@ -338,7 +358,7 @@ const AddProduct = () => {
             "")
         }
         
-        alt=""
+        alt="image"
       />
                 <InputLabel htmlFor="icon-upload" shrink>
                   Icon Upload
@@ -365,7 +385,7 @@ const AddProduct = () => {
                   Upload
                 </Button>
               </FormControl>
-
+              </div>
           <Button
             variant="outlined"
             color="info"

@@ -55,11 +55,24 @@ const EditProduct = ({formData}) => {
  
 
 
-  useEffect(() => {
-    console.log(formData) 
-  }, [formData]);
+  useEffect(() => { 
+    getData();
+  }, []);
 
- 
+  const getData = () => {
+    fetch(import.meta.env.VITE_BASE_URL + "/api/categories", {
+      headers: { Authorization: "bearer " + import.meta.env.VITE_API_KEY },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const tempRow = data.data.map((item) => {
+          return { id: item.id, title: item.attributes.title };
+        });
+        setCategories(tempRow);
+        console.log(tempRow);
+      })
+      .catch((error) => console.log(error));
+  };
 
   const onSubmit = async (data) => {
     try {

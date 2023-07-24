@@ -12,6 +12,9 @@ import { set } from "react-hook-form";
 import EditProduct from "./EditProduct";
 import AddProduct from "./AddProduct"
 
+
+
+
 const ProductList = () => {
   const [productData, setProductData] = useState([]);
   const [showEditPanel, setShowEditPanel] = useState(false);
@@ -95,7 +98,7 @@ const ProductList = () => {
           </IconButton>
           <IconButton
             color="error"
-            onClick={() => handleDelete(params.row.id)} 
+            onClick={() => deleteItem(params.row.id)} 
             style={{ borderRadius: 0 }}
           >
             <DeleteIcon />
@@ -121,7 +124,7 @@ const ProductList = () => {
   //     .then((data) => {
   //       console.log(data);
   //       setFormData(data.data)
-  //     })
+  //     })yo
   //     .catch((error) => console.log(error));
   // };
 
@@ -139,6 +142,25 @@ const ProductList = () => {
       })
       .catch((error) => console.log(error));
   };
+
+  const deleteItem = (itemId) => {
+    // Perform the deletion logic for the item with the given itemId
+    if (confirm("you sure delete this item ?")) {
+      fetch(import.meta.env.VITE_BASE_URL + "/api/products/" + itemId, {
+        method: "DELETE",
+        headers: {
+          Authorization: "bearer " + import.meta.env.VITE_API_KEY,
+          accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((response) => {
+          getData();
+        });
+    } else console.log("cancel");
+  };
+
 
   return (
     <Box sx={{ height: 400, width: "100%" }}>
@@ -197,6 +219,9 @@ const ProductList = () => {
      
           }}
         >
+
+
+
           <IconButton
             onClick={() => {
               setShowAddPanel(false);

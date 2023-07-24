@@ -28,13 +28,12 @@ const MenuProps = {
   },
 };
 
-const EditProduct = ({formData}) => {
+const EditProduct = ({ formData }) => {
   const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [imageId, setImageId] = useState();
   const [imageFile, setImageFile] = useState(null);
   const [itemData, setItemData] = useState({});
-  
 
   const handleChange = (event) => {
     const {
@@ -52,12 +51,13 @@ const EditProduct = ({formData}) => {
     formState: { errors },
   } = useForm();
 
- 
-
-
-  useEffect(() => { 
+  useEffect(() => {
     getData();
   }, []);
+
+  useEffect(() => {
+    setImageId(formData.image.data.id);
+  }, [formData]);
 
   const getData = () => {
     fetch(import.meta.env.VITE_BASE_URL + "/api/categories", {
@@ -76,18 +76,23 @@ const EditProduct = ({formData}) => {
 
   const onSubmit = async (data) => {
     try {
-      const formData = {
+      const formData1 = {
         data: {
           title: data.title,
-          icon: [imageId],
-          parent: parent,
+          image: imageId.toString(),
+          oldprice: Number(data.oldprice),
+          price: Number(data.price),
+          discount: Number(data.discount),
+          showinbaner: data.showInBaner,
+          showincarousel: data.showInCarousel,
+          categories: ["1", "11"],
         },
       };
 
-      console.log(formData);
+      console.log(formData1);
 
       const response = await fetch(
-        import.meta.env.VITE_BASE_URL + "/api/categories",
+        import.meta.env.VITE_BASE_URL + "/api/products",
         {
           method: "POST",
           headers: {
@@ -95,7 +100,7 @@ const EditProduct = ({formData}) => {
             accept: "application/json",
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify(formData1),
         }
       );
 
@@ -103,8 +108,6 @@ const EditProduct = ({formData}) => {
         const result = await response.json();
         console.log("Data successfully posted to Strapi:", result);
         getData();
-        setCurrentNode(-1);
-        setShowAddPanel(false);
       } else {
         console.error("Error posting data to Strapi:", response.statusText);
       }
@@ -113,12 +116,11 @@ const EditProduct = ({formData}) => {
     }
   };
 
-
   const uploadImage = async () => {
     try {
       const formData = new FormData();
       formData.append("files", imageFile);
-  
+
       const response = await fetch(
         import.meta.env.VITE_BASE_URL + "/api/upload",
         {
@@ -129,16 +131,14 @@ const EditProduct = ({formData}) => {
           body: formData,
         }
       );
-  
+
       if (response.ok) {
         const result = await response.json();
         const imageUrl = result[0]?.url || "";
-        console.log (result)
+        console.log(result);
 
-  
-      
         setImageId(result[0].id);
-  
+
         setItemData((prevItemData) => ({
           ...prevItemData,
           attributes: {
@@ -154,7 +154,7 @@ const EditProduct = ({formData}) => {
             },
           },
         }));
-  
+
         console.log("Image uploaded successfully:", result);
       } else {
         console.error("Error uploading image:", response.statusText);
@@ -296,7 +296,14 @@ const EditProduct = ({formData}) => {
               <Typography sx={{ marginRight: "12px" }}>
                 show in baner
               </Typography>
-              <FormControlLabel control={<Switch    defaultChecked={formData.showinbaner}/>} />
+              <FormControlLabel
+                control={
+                  <Switch
+                    {...register("showInBaner")}
+                    defaultChecked={formData.showinbaner}
+                  />
+                }
+              />
             </div>
             <div
               style={{ width: "40%", display: "flex", alignItems: "center" }}
@@ -304,11 +311,18 @@ const EditProduct = ({formData}) => {
               <Typography sx={{ marginRight: "12px" }}>
                 show in carousel
               </Typography>
-              <FormControlLabel control={<Switch   defaultChecked={formData.showincarousel}/>} />
+              <FormControlLabel
+                control={
+                  <Switch
+                    {...register("showInCarousel")}
+                    defaultChecked={formData.showincarousel}
+                  />
+                }
+              />
             </div>
           </div>
-          <div >
-            <InputLabel id="demo-multiple-chip-label" >Categories</InputLabel>
+          <div>
+            <InputLabel id="demo-multiple-chip-label">Categories</InputLabel>
             <Select
               labelId="demo-multiple-chip-label"
               id="demo-multiple-chip"
@@ -345,44 +359,49 @@ const EditProduct = ({formData}) => {
             </Select>
           </div>
 
-
-          <FormControl sx={{ marginTop: "10px", width: "60%" , border: "1px solid #ccc", borderRadius: "4px", padding: "8px"}}>
-          <img
-       style={{ width: "80px", height: "80px", marginBottom: "10px" }}
-        src={
-          import.meta.env.VITE_BASE_URL +
-          ((itemData?.attributes?.icon?.data != null &&
-            itemData.attributes.icon.data[0]?.attributes?.url) ||
-            "")
-        }
-        
-        alt=""
-      />
-                <InputLabel htmlFor="icon-upload" shrink>
-                  Icon Upload
-                </InputLabel>
-                <Input
-                  id="icon-upload"
-                  type="file"
-                  onChange={(e) => {
-                    const file = e.target.files[0];
-                    setImageFile(file);
-                  }}
-                />
-                <FormHelperText>
-                  {imageFile ? imageFile.name : "Choose an image file"}
-
-                </FormHelperText>
-                <Button
-                  variant="contained"
-                  component="label"
-                  startIcon={<CloudUploadIcon />}
-                  onClick={uploadImage}
-                  disabled={!imageFile}
-                >
-                  Upload
-                </Button>
-              </FormControl>
+          <FormControl
+            sx={{
+              marginTop: "10px",
+              width: "60%",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              padding: "8px",
+            }}
+          >
+            <img
+              style={{ width: "80px", height: "80px", marginBottom: "10px" }}
+              src={
+                import.meta.env.VITE_BASE_URL +
+                ((itemData?.attributes?.icon?.data != null &&
+                  itemData.attributes.icon.data[0]?.attributes?.url) ||
+                  "")
+              }
+              alt=""
+            />
+            <InputLabel htmlFor="icon-upload" shrink>
+              Icon Upload
+            </InputLabel>
+            <Input
+              id="icon-upload"
+              type="file"
+              onChange={(e) => {
+                const file = e.target.files[0];
+                setImageFile(file);
+              }}
+            />
+            <FormHelperText>
+              {imageFile ? imageFile.name : "Choose an image file"}
+            </FormHelperText>
+            <Button
+              variant="contained"
+              component="label"
+              startIcon={<CloudUploadIcon />}
+              onClick={uploadImage}
+              disabled={!imageFile}
+            >
+              Upload
+            </Button>
+          </FormControl>
 
           <Button
             variant="outlined"
@@ -395,8 +414,6 @@ const EditProduct = ({formData}) => {
           </Button>
         </Box>
       </form>
-
-   
     </div>
   );
 };

@@ -35,7 +35,7 @@ const Category = () => {
 
   const deleteItem = (itemId) => {
     // Perform the deletion logic for the item with the given itemId
-    if (confirm("you sure delet this item ?")) {
+    if (confirm("you sure delete this item ?")) {
       fetch(import.meta.env.VITE_BASE_URL + "/api/categories/" + itemId, {
         method: "DELETE",
         headers: {

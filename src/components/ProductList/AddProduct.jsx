@@ -82,12 +82,12 @@ const AddProduct = () => {
         data: {
           title: data.title,
           image: imageId.toString(),
-          oldprice:Number(data.oldprice),
-          price:Number(data.price) ,
-          discount:Number(data.discount) ,
+          oldprice: Number(data.oldprice),
+          price: Number(data.price),
+          discount: Number(data.discount),
           showinbaner: data.showInBaner,
           showincarousel: data.showInCarousel,
-          categories: data.categories,
+          categories: selectedCategories.map(Number),
         },
       };
 
@@ -349,7 +349,13 @@ const AddProduct = () => {
                       }}
                     >
                       {selected.map((value) => (
-                        <Chip key={value} label={value} />
+                        <Chip
+                          key={value}
+                          label={
+                            categories.find((category) => category.id === value)
+                              ?.title
+                          }
+                        />
                       ))}
                     </Box>
                   )}
@@ -360,7 +366,7 @@ const AddProduct = () => {
                   }}
                 >
                   {categories.map((item) => (
-                    <MenuItem key={item.id} value={item.title}>
+                    <MenuItem key={item.id} value={item.id}>
                       {item.title}
                     </MenuItem>
                   ))}

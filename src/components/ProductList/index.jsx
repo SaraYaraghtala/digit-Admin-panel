@@ -112,6 +112,7 @@ const ProductList = () => {
     getData();
   }, []);
 
+
   // useEffect(()=>{
   //   getProductData()
   // },[productId])
@@ -124,9 +125,12 @@ const ProductList = () => {
   //     .then((data) => {
   //       console.log(data);
   //       setFormData(data.data)
-  //     })yo
+  //     })
   //     .catch((error) => console.log(error));
   // };
+
+
+
 
   const getData = () => {
     fetch(import.meta.env.VITE_BASE_URL + "/api/products?populate=*", {
@@ -175,7 +179,7 @@ const ProductList = () => {
         <Button
           startIcon={<AddIcon />}
           variant="contained"
-          color="error"
+          color="primary"
           onClick={() => {
             setShowAddPanel(true);
           }}
@@ -204,7 +208,7 @@ const ProductList = () => {
           >
             <CloseIcon style={{ color: "#EE384E" }} />
           </IconButton>
-          < EditProduct formData={formData}  productId={productId}/>
+          < EditProduct formData={formData}  productId={productId} refreshItem={getData}/>
           
         </Box>
       )}

@@ -28,7 +28,7 @@ const MenuProps = {
   },
 };
 
-const EditProduct = ({ productId,formData }) => {
+const EditProduct = ({ productId, formData, refreshItem }) => {
   const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [imageId, setImageId] = useState();
@@ -57,6 +57,8 @@ const EditProduct = ({ productId,formData }) => {
 
   useEffect(() => {
     setImageId(formData.image.data.id);
+    console.log(formData)
+    setItemData(formData.image.data.attributes.url);
   }, [formData]);
 
   const getData = () => {
@@ -85,7 +87,7 @@ const EditProduct = ({ productId,formData }) => {
           discount: Number(data.discount),
           showinbaner: data.showInBaner,
           showincarousel: data.showInCarousel,
-          categories:selectedCategories.map(Number),
+          categories: selectedCategories.map(Number),
         },
       };
 
@@ -107,7 +109,7 @@ const EditProduct = ({ productId,formData }) => {
       if (response.ok) {
         const result = await response.json();
         console.log("Data successfully posted to Strapi:", result);
-        getData();
+        refreshItem();
       } else {
         console.error("Error posting data to Strapi:", response.statusText);
       }
@@ -139,21 +141,7 @@ const EditProduct = ({ productId,formData }) => {
 
         setImageId(result[0].id);
 
-        setItemData((prevItemData) => ({
-          ...prevItemData,
-          attributes: {
-            ...prevItemData.attributes,
-            icon: {
-              data: [
-                {
-                  attributes: {
-                    url: imageUrl,
-                  },
-                },
-              ],
-            },
-          },
-        }));
+        setItemData(imageUrl)
 
         console.log("Image uploaded successfully:", result);
       } else {
@@ -341,7 +329,13 @@ const EditProduct = ({ productId,formData }) => {
                   }}
                 >
                   {selected.map((value) => (
-                    <Chip key={value} label={categories.find(category => category.id === value)?.title} />
+                    <Chip
+                      key={value}
+                      label={
+                        categories.find((category) => category.id === value)
+                          ?.title
+                      }
+                    />
                   ))}
                 </Box>
               )}
@@ -371,10 +365,8 @@ const EditProduct = ({ productId,formData }) => {
             <img
               style={{ width: "80px", height: "80px", marginBottom: "10px" }}
               src={
-                import.meta.env.VITE_BASE_URL +
-                ((itemData?.attributes?.icon?.data != null &&
-                  itemData.attributes.icon.data[0]?.attributes?.url) ||
-                  "")
+                import.meta.env.VITE_BASE_URL +itemData
+              
               }
               alt=""
             />

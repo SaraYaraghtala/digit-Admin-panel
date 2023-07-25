@@ -28,7 +28,7 @@ const MenuProps = {
   },
 };
 
-const EditProduct = ({ formData }) => {
+const EditProduct = ({ productId,formData }) => {
   const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [imageId, setImageId] = useState();
@@ -76,7 +76,7 @@ const EditProduct = ({ formData }) => {
 
   const onSubmit = async (data) => {
     try {
-      const formData1 = {
+      const localFormData = {
         data: {
           title: data.title,
           image: imageId.toString(),
@@ -85,22 +85,22 @@ const EditProduct = ({ formData }) => {
           discount: Number(data.discount),
           showinbaner: data.showInBaner,
           showincarousel: data.showInCarousel,
-          categories: ["1", "11"],
+          categories:selectedCategories.map(Number),
         },
       };
 
-      console.log(formData1);
+      console.log(localFormData);
 
       const response = await fetch(
-        import.meta.env.VITE_BASE_URL + "/api/products",
+        import.meta.env.VITE_BASE_URL + `/api/products/${productId}`,
         {
-          method: "POST",
+          method: "PUT",
           headers: {
             Authorization: "bearer " + import.meta.env.VITE_API_KEY,
             accept: "application/json",
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(formData1),
+          body: JSON.stringify(localFormData),
         }
       );
 
@@ -341,7 +341,7 @@ const EditProduct = ({ formData }) => {
                   }}
                 >
                   {selected.map((value) => (
-                    <Chip key={value} label={value} />
+                    <Chip key={value} label={categories.find(category => category.id === value)?.title} />
                   ))}
                 </Box>
               )}
@@ -352,7 +352,7 @@ const EditProduct = ({ formData }) => {
               }}
             >
               {categories.map((item) => (
-                <MenuItem key={item.id} value={item.title}>
+                <MenuItem key={item.id} value={item.id}>
                   {item.title}
                 </MenuItem>
               ))}

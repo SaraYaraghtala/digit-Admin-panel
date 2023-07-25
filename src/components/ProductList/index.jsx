@@ -204,7 +204,7 @@ const ProductList = () => {
           >
             <CloseIcon style={{ color: "#EE384E" }} />
           </IconButton>
-          < EditProduct formData={formData}/>
+          < EditProduct formData={formData}  productId={productId}/>
           
         </Box>
       )}

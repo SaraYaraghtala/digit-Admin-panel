@@ -10,7 +10,9 @@ import Stack from "@mui/material/Stack";
 import CloseIcon from "@mui/icons-material/Close";
 import { set } from "react-hook-form";
 import EditProduct from "./EditProduct";
-import AddProduct from "./AddProduct"
+import AddProduct from "./addProduct/AddProduct";
+
+
 
 
 

@@ -1,35 +1,26 @@
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
-import TextField from "@mui/material/TextField";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { FormControl, FormHelperText, Input } from "@mui/material";
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
-import Typography from "@mui/material/Typography";
-import { Category } from "@mui/icons-material";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
+import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
-import OutlinedInput from "@mui/material/OutlinedInput";
+import FormControlLabel from "@mui/material/FormControlLabel";
 import InputLabel from "@mui/material/InputLabel";
-import { FormControl, FormHelperText, Input } from "@mui/material";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import Stepper from "@mui/material/Stepper";
+import MenuItem from "@mui/material/MenuItem";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import Select from "@mui/material/Select";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
+import Stepper from "@mui/material/Stepper";
+import Switch from "@mui/material/Switch";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import MenuProps from "./addProduct.tools";
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
+
 
 const steps = ["Upload Image", "Meta Data", "Finish"];
 

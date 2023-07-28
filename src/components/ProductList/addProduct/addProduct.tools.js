@@ -10,4 +10,8 @@ const MenuProps = {
   },
 };
 
-export default MenuProps;
+const steps = ["Upload Image", "Meta Data", "Finish"];
+
+const addProductTools = { MenuProps, steps };
+
+export default addProductTools;

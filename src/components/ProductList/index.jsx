@@ -8,8 +8,8 @@ import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import EditProduct from "./EditProduct";
 import AddProduct from "./addProduct/AddProduct";
+import EditProduct from "./editProduct/EditProduct";
 
 
 

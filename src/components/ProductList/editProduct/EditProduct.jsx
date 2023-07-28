@@ -1,32 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
-import TextField from "@mui/material/TextField";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { FormControl, FormHelperText, Input } from "@mui/material";
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
-import Typography from "@mui/material/Typography";
-import { Category } from "@mui/icons-material";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
+import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
-import OutlinedInput from "@mui/material/OutlinedInput";
+import FormControlLabel from "@mui/material/FormControlLabel";
 import InputLabel from "@mui/material/InputLabel";
-import { FormControl, FormHelperText, Input } from "@mui/material";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
+import MenuItem from "@mui/material/MenuItem";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import Select from "@mui/material/Select";
+import Switch from "@mui/material/Switch";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import React, { useEffect, useState } from "react";
+import styles from "../shared/productList.styles";
+import { useForm } from "react-hook-form";
+import C_PRODUCT_LIST from "../shared/productList.constant";
+import ProductListTools from "../shared/productList.tools";
+import { Image } from "@mui/icons-material";
 
 const EditProduct = ({ productId, formData, refreshItem }) => {
   const [categories, setCategories] = useState([]);
@@ -39,10 +31,7 @@ const EditProduct = ({ productId, formData, refreshItem }) => {
     const {
       target: { value },
     } = event;
-    setSelectedCategories(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
+    setSelectedCategories(typeof value === "string" ? value.split(",") : value);
   };
 
   const {
@@ -52,12 +41,8 @@ const EditProduct = ({ productId, formData, refreshItem }) => {
   } = useForm();
 
   useEffect(() => {
-    getData();
-  }, []);
-
-  useEffect(() => {
     setImageId(formData.image.data.id);
-    console.log(formData)
+    console.log(formData);
     setItemData(formData.image.data.attributes.url);
   }, [formData]);
 
@@ -75,6 +60,10 @@ const EditProduct = ({ productId, formData, refreshItem }) => {
       })
       .catch((error) => console.log(error));
   };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   const onSubmit = async (data) => {
     try {
@@ -141,7 +130,7 @@ const EditProduct = ({ productId, formData, refreshItem }) => {
 
         setImageId(result[0].id);
 
-        setItemData(imageUrl)
+        setItemData(imageUrl);
 
         console.log("Image uploaded successfully:", result);
       } else {
@@ -155,42 +144,13 @@ const EditProduct = ({ productId, formData, refreshItem }) => {
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "100%",
-            padding: "2px",
-            marginLeft: "30px",
-            marginRight: "30px",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              width: "100%",
-            }}
-          >
+        <Box sx={styles.addProductContainerSx()}>
+          <Box sx={styles.texFieldContainerSx()}>
             <TextField
               label="title"
               {...register("title", { required: true })}
               defaultValue={formData.title}
-              sx={{
-                marginBottom: "10px",
-                width: "40%",
-                "& .MuiFormHelperText-root": {
-                  color: "#02A2E4",
-                },
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "10px",
-                  "& fieldset": {
-                    borderColor: " #73A5D3",
-                  },
-                },
-              }}
+              sx={styles.textFieldSx()}
             />
             {errors.title && (
               <Alert severity="error">this field is required??</Alert>
@@ -199,48 +159,18 @@ const EditProduct = ({ productId, formData, refreshItem }) => {
               label="price"
               {...register("price", { required: true })}
               defaultValue={formData.price}
-              sx={{
-                marginBottom: "10px",
-                width: "40%",
-                "& .MuiFormHelperText-root": {
-                  color: "#02A2E4",
-                },
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "10px",
-                  "& fieldset": {
-                    borderColor: " #73A5D3",
-                  },
-                },
-              }}
+              sx={styles.textFieldSx()}
             />
             {errors.price && (
               <Alert severity="error">this field is required??</Alert>
             )}
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              width: "100%",
-            }}
-          >
+          </Box>
+          <Box sx={styles.texFieldContainerSx()}>
             <TextField
               label="oldprice"
               {...register("oldprice", { required: true })}
               defaultValue={formData.oldprice}
-              sx={{
-                marginBottom: "10px",
-                width: "40%",
-                "& .MuiFormHelperText-root": {
-                  color: "#02A2E4",
-                },
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "10px",
-                  "& fieldset": {
-                    borderColor: " #73A5D3",
-                  },
-                },
-              }}
+              sx={styles.textFieldSx()}
             />
             {errors.oldprice && (
               <Alert severity="error">this field is required??</Alert>
@@ -249,39 +179,16 @@ const EditProduct = ({ productId, formData, refreshItem }) => {
               label="discount"
               {...register("discount", { required: true })}
               defaultValue={formData.discount}
-              sx={{
-                marginBottom: "10px",
-                width: "40%",
-                "& .MuiFormHelperText-root": {
-                  color: "#02A2E4",
-                },
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "10px",
-                  "& fieldset": {
-                    borderColor: " #73A5D3",
-                  },
-                },
-              }}
+              sx={styles.textFieldSx()}
             />
             {errors.discount && (
               <Alert severity="error">this field is required??</Alert>
             )}
-          </div>
+          </Box>
 
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              width: "100%",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <Typography sx={{ marginRight: "12px" }}>
+          <Box sx={styles.texFieldContainerSx()}>
+            <Box sx={styles.formControlLableSx()}>
+              <Typography sx={styles.showTypographySx()}>
                 show in baner
               </Typography>
               <FormControlLabel
@@ -292,11 +199,9 @@ const EditProduct = ({ productId, formData, refreshItem }) => {
                   />
                 }
               />
-            </div>
-            <div
-              style={{ width: "40%", display: "flex", alignItems: "center" }}
-            >
-              <Typography sx={{ marginRight: "12px" }}>
+            </Box>
+            <Box className="secondColumn" sx={styles.formControlLableSx()}>
+              <Typography sx={styles.showTypographySx()}>
                 show in carousel
               </Typography>
               <FormControlLabel
@@ -307,9 +212,9 @@ const EditProduct = ({ productId, formData, refreshItem }) => {
                   />
                 }
               />
-            </div>
-          </div>
-          <div>
+            </Box>
+          </Box>
+          <Box sx={styles.categoriesContainerSx()}>
             <InputLabel id="demo-multiple-chip-label">Categories</InputLabel>
             <Select
               labelId="demo-multiple-chip-label"
@@ -321,13 +226,7 @@ const EditProduct = ({ productId, formData, refreshItem }) => {
                 <OutlinedInput id="select-multiple-chip" label="Categories" />
               }
               renderValue={(selected) => (
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    gap: 0.5,
-                  }}
-                >
+                <Box sx={styles.chipsContainerSx()}>
                   {selected.map((value) => (
                     <Chip
                       key={value}
@@ -339,11 +238,8 @@ const EditProduct = ({ productId, formData, refreshItem }) => {
                   ))}
                 </Box>
               )}
-              MenuProps={MenuProps}
-              sx={{
-                minWidth: 250, // Set a minimum width for the Select component
-                marginTop: "10px",
-              }}
+              MenuProps={ProductListTools.MenuProps}
+              sx={styles.menuPropsSx()}
             >
               {categories.map((item) => (
                 <MenuItem key={item.id} value={item.id}>
@@ -351,56 +247,45 @@ const EditProduct = ({ productId, formData, refreshItem }) => {
                 </MenuItem>
               ))}
             </Select>
-          </div>
 
-          <FormControl
-            sx={{
-              marginTop: "10px",
-              width: "60%",
-              border: "1px solid #ccc",
-              borderRadius: "4px",
-              padding: "8px",
-            }}
-          >
-            <img
-              style={{ width: "80px", height: "80px", marginBottom: "10px" }}
-              src={
-                import.meta.env.VITE_BASE_URL +itemData
-              
-              }
-              alt=""
-            />
-            <InputLabel htmlFor="icon-upload" shrink>
-              Icon Upload
-            </InputLabel>
-            <Input
-              id="icon-upload"
-              type="file"
-              onChange={(e) => {
-                const file = e.target.files[0];
-                setImageFile(file);
-              }}
-            />
-            <FormHelperText>
-              {imageFile ? imageFile.name : "Choose an image file"}
-            </FormHelperText>
-            <Button
-              variant="contained"
-              component="label"
-              startIcon={<CloudUploadIcon />}
-              onClick={uploadImage}
-              disabled={!imageFile}
-            >
-              Upload
-            </Button>
-          </FormControl>
+            <FormControl sx={styles.formControlImageSx()}>
+              <Image
+                sx={styles.formUploadImageSx()}
+                src={import.meta.env.VITE_BASE_URL + itemData}
+                alt="image"
+              />
+              <InputLabel htmlFor="icon-upload" shrink>
+                Image Upload
+              </InputLabel>
+              <Input
+                id="icon-upload"
+                type="file"
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  setImageFile(file);
+                }}
+              />
+              <FormHelperText>
+                {imageFile ? imageFile.name : "Choose an image file"}
+              </FormHelperText>
+              <Button
+                variant="contained"
+                component="label"
+                startIcon={<CloudUploadIcon />}
+                onClick={uploadImage}
+                disabled={!imageFile}
+              >
+                Upload
+              </Button>
+            </FormControl>
+          </Box>
 
           <Button
             variant="outlined"
             color="info"
             startIcon={<AddIcon />}
             type="submit"
-            sx={{ marginTop: "10px", width: "15%" }}
+            sx={styles.saveButtonSx()}
           >
             Save
           </Button>

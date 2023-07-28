@@ -66,12 +66,12 @@ const formUploadImageSx = () => ({
 
 const showTypographySx = () => ({ marginRight: "12px" });
 
-const menuPropsSx =()=>({
+const menuPropsSx = () => ({
   minWidth: 250,
   marginTop: "10px",
 });
 
-const addProductStyles = {
+const productListStyles = {
   addProductContainerSx,
   texFieldContainerSx,
   textFieldSx,
@@ -85,4 +85,4 @@ const addProductStyles = {
   menuPropsSx,
 };
 
-export default addProductStyles;
+export default productListStyles;

@@ -1,3 +1,4 @@
+import { Image } from "@mui/icons-material";
 import AddIcon from "@mui/icons-material/Add";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { FormControl, FormHelperText, Input } from "@mui/material";
@@ -14,11 +15,9 @@ import Switch from "@mui/material/Switch";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import React, { useEffect, useState } from "react";
-import styles from "../shared/productList.styles";
 import { useForm } from "react-hook-form";
-import C_PRODUCT_LIST from "../shared/productList.constant";
+import styles from "../shared/productList.styles";
 import ProductListTools from "../shared/productList.tools";
-import { Image } from "@mui/icons-material";
 
 const EditProduct = ({ productId, formData, refreshItem }) => {
   const [categories, setCategories] = useState([]);
@@ -215,38 +214,40 @@ const EditProduct = ({ productId, formData, refreshItem }) => {
             </Box>
           </Box>
           <Box sx={styles.categoriesContainerSx()}>
-            <InputLabel id="demo-multiple-chip-label">Categories</InputLabel>
-            <Select
-              labelId="demo-multiple-chip-label"
-              id="demo-multiple-chip"
-              multiple
-              value={selectedCategories}
-              onChange={handleChange}
-              input={
-                <OutlinedInput id="select-multiple-chip" label="Categories" />
-              }
-              renderValue={(selected) => (
-                <Box sx={styles.chipsContainerSx()}>
-                  {selected.map((value) => (
-                    <Chip
-                      key={value}
-                      label={
-                        categories.find((category) => category.id === value)
-                          ?.title
-                      }
-                    />
-                  ))}
-                </Box>
-              )}
-              MenuProps={ProductListTools.MenuProps}
-              sx={styles.menuPropsSx()}
-            >
-              {categories.map((item) => (
-                <MenuItem key={item.id} value={item.id}>
-                  {item.title}
-                </MenuItem>
-              ))}
-            </Select>
+            <Box>
+              <InputLabel id="demo-multiple-chip-label">Categories</InputLabel>
+              <Select
+                labelId="demo-multiple-chip-label"
+                id="demo-multiple-chip"
+                multiple
+                value={selectedCategories}
+                onChange={handleChange}
+                input={
+                  <OutlinedInput id="select-multiple-chip" label="Categories" />
+                }
+                renderValue={(selected) => (
+                  <Box sx={styles.chipsContainerSx()}>
+                    {selected.map((value) => (
+                      <Chip
+                        key={value}
+                        label={
+                          categories.find((category) => category.id === value)
+                            ?.title
+                        }
+                      />
+                    ))}
+                  </Box>
+                )}
+                MenuProps={ProductListTools.MenuProps}
+                sx={styles.menuPropsSx()}
+              >
+                {categories.map((item) => (
+                  <MenuItem key={item.id} value={item.id}>
+                    {item.title}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Box>
 
             <FormControl sx={styles.formControlImageSx()}>
               <Image

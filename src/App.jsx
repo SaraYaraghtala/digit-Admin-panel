@@ -22,6 +22,8 @@ import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import Home from "./Pages/Home";
 import Category from "./Pages/Category";
 import Product from "./Pages/Product";
+import ProductionQuantityLimitsSharpIcon from '@mui/icons-material/ProductionQuantityLimitsSharp';
+import ClassSharpIcon from '@mui/icons-material/ClassSharp';
 
 const drawerWidth = 240;
 
@@ -159,7 +161,7 @@ export default function App() {
                       justifyContent: "center",
                     }}
                   >
-                    <MailIcon />
+                    <ProductionQuantityLimitsSharpIcon/>
                   </ListItemIcon>
                   <ListItemText
                     primary={"Product Management"}
@@ -188,7 +190,7 @@ export default function App() {
                       justifyContent: "center",
                     }}
                   >
-                    <MailIcon />
+                    <ClassSharpIcon />
                   </ListItemIcon>
                   <ListItemText
                     primary={"Category Management"}

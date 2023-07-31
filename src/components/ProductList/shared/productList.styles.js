@@ -4,6 +4,7 @@ const addProductContainerSx = () => ({
   alignItems: "center",
   justifyContent: "center",
   height: "100%",
+  width: "100%",
   padding: "2px",
   marginLeft: "30px",
   marginRight: "30px",

@@ -20,17 +20,17 @@ const ProductList = () => {
   const [formData, setFormData] = useState({});
 
   const columns = [
-    { field: "id", headerName: "ID", width: 90 },
+    { field: "id", headerName: "ID", width: 60},
     {
       field: "title",
       headerName: "title",
-      width: 190,
+      width: 170,
       editable: true,
     },
     {
       field: "image",
       headerName: "image",
-      width: 150,
+      width: 100,
       editable: true,
       renderCell: (params) => (
         <img
@@ -159,35 +159,6 @@ const ProductList = () => {
         </Button>
       </Box>
 
-      {showEditPanel && (
-        <Box sx={styles.panelsContainerSx()}>
-          <IconButton
-            onClick={() => {
-              setShowEditPanel(false);
-            }}
-          >
-            <CloseIcon style={{ color: "#EE384E" }} />
-          </IconButton>
-          <EditProduct
-            formData={formData}
-            productId={productId}
-            refreshItem={getData}
-          />
-        </Box>
-      )}
-      {showAddPanel && (
-        <Box sx={styles.panelsContainerSx()}>
-          <IconButton
-            onClick={() => {
-              setShowAddPanel(false);
-            }}
-          >
-            <CloseIcon className="closeIcon" />
-          </IconButton>
-          <AddProduct />
-        </Box>
-      )}
-
       <DataGrid
         rows={productData}
         columns={columns}
@@ -202,6 +173,38 @@ const ProductList = () => {
         checkboxSelection
         disableRowSelectionOnClick
       />
+
+      {showEditPanel && (
+        <Box sx={styles.panelsContainerSx()}>
+          <IconButton
+            onClick={() => {
+              setShowEditPanel(false);
+            }}
+          >
+            <CloseIcon className="closeIcon" />
+          </IconButton>
+          <EditProduct
+            formData={formData}
+            productId={productId}
+            refreshItem={getData}
+          />
+        </Box>
+      )}
+      {showAddPanel && (
+        <Box sx={{ display: "flex", flexDirection: "row", width: "100%" }}>
+          <IconButton
+            onClick={() => {
+              setShowAddPanel(false);
+            }}
+            disableRipple
+          >
+            <CloseIcon className="closeIcon" />
+          </IconButton>
+          <Box sx={styles.panelsContainerSx()}>
+            <AddProduct />
+          </Box>
+        </Box>
+      )}
     </Box>
   );
 };

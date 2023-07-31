@@ -12,9 +12,9 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import Stack from "@mui/material/Stack";
-import Add from "../components/Category/Add";
-import Edit from "../components/Category/Edit";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
+import Edit from "../components/Category/editCategory/Edit";
+import Add from "../components/Category/addCategory/Add";
 
 const Category = () => {
   const [menuData, setMenuData] = useState([]);
@@ -148,7 +148,7 @@ const Category = () => {
                   height: "100%",
                   width: "100%",
                   overflowY: "auto",
-                   marginBottom: "20px",
+                  marginBottom: "20px",
                   marginTop: "20px",
                 }}
                 onNodeSelect={(event, value) => {
@@ -168,7 +168,7 @@ const Category = () => {
                               spacing={1}
                               sx={{
                                 display: "inline-block",
-                                 }}
+                              }}
                             >
                               <IconButton
                                 aria-label="delete"
@@ -232,7 +232,6 @@ const Category = () => {
                                       sx={{
                                         fill: "red",
                                         fontSize: 20,
-                                     
                                       }}
                                     />
                                   </IconButton>
@@ -244,7 +243,6 @@ const Category = () => {
                                       sx={{
                                         fill: "red",
                                         fontSize: 20,
-                                     
                                       }}
                                     />
                                   </IconButton>
@@ -347,10 +345,9 @@ const Category = () => {
             onClick={() => {
               setShowEditPanel(false);
             }}
-      
           >
             {" "}
-            < CloseIcon style={{ color: "#EE384E" }}/>
+            <CloseIcon style={{ color: "#EE384E" }} />
           </IconButton>
           <Edit
             itemId={currentNode}
@@ -361,19 +358,19 @@ const Category = () => {
         </Box>
       )}
       {showAddPanel && (
-        <Box 
-        sx={{
-          position: "absolute",
-          top: 50,
-          right: 40,
-          width: "40%",
-          height: "40%",
-          padding: "20px",
-          borderRadius: "20px",
-          backgroundColor: "#FFF",
-          boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
-          marginTop: "40px",
-        }}
+        <Box
+          sx={{
+            position: "absolute",
+            top: 50,
+            right: 40,
+            width: "40%",
+            height: "40%",
+            padding: "20px",
+            borderRadius: "20px",
+            backgroundColor: "#FFF",
+            boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
+            marginTop: "40px",
+          }}
         >
           <IconButton
             onClick={() => {
@@ -381,7 +378,7 @@ const Category = () => {
             }}
           >
             {" "}
-          < CloseIcon style={{ color: "#EE384E" }}/>
+            <CloseIcon style={{ color: "#EE384E" }} />
           </IconButton>
           <Add
             parent={currentNode}

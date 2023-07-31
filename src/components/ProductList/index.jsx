@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from "react";
-import Box from "@mui/material/Box";
-import { DataGrid } from "@mui/x-data-grid";
-import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
+import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
-import CloseIcon from "@mui/icons-material/Close";
-import { set } from "react-hook-form";
+import { DataGrid } from "@mui/x-data-grid";
+import { useEffect, useState } from "react";
 import EditProduct from "./EditProduct";
-import AddProduct from "./AddProduct"
+import AddProduct from "./addProduct/AddProduct";
+
+
 
 
 

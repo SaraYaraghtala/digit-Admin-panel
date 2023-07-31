@@ -1,37 +1,26 @@
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
-import TextField from "@mui/material/TextField";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { FormControl, FormHelperText, Input } from "@mui/material";
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
-import Typography from "@mui/material/Typography";
-import { Category } from "@mui/icons-material";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
+import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
-import OutlinedInput from "@mui/material/OutlinedInput";
+import FormControlLabel from "@mui/material/FormControlLabel";
 import InputLabel from "@mui/material/InputLabel";
-import { FormControl, FormHelperText, Input } from "@mui/material";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import Stepper from "@mui/material/Stepper";
+import MenuItem from "@mui/material/MenuItem";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import Select from "@mui/material/Select";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
-const steps = ["Upload Image", "Meta Data", "Finish"];
+import Stepper from "@mui/material/Stepper";
+import Switch from "@mui/material/Switch";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import addProductTools from "./addProduct.tools";
+import styles from "./addProduct.styles";
+import { Image } from "@mui/icons-material";
 
 const AddProduct = () => {
   const [categories, setCategories] = useState([]);
@@ -42,10 +31,10 @@ const AddProduct = () => {
   const [currentStep, setCurrentStep] = useState(0);
 
   useEffect(() => {
-    getData();
+    getCategoriesData();
   }, []);
 
-  const handleChange = (event) => {
+  const selectCategoriesHandleChange = (event) => {
     const {
       target: { value },
     } = event;
@@ -61,7 +50,7 @@ const AddProduct = () => {
     formState: { errors },
   } = useForm();
 
-  const getData = () => {
+  const getCategoriesData = () => {
     fetch(import.meta.env.VITE_BASE_URL + "/api/categories", {
       headers: { Authorization: "bearer " + import.meta.env.VITE_API_KEY },
     })
@@ -109,10 +98,8 @@ const AddProduct = () => {
       if (response.ok) {
         const result = await response.json();
         console.log("Data successfully posted to Strapi:", result);
-        // getData();
-        // setCurrentNode(-1);
+
         setCurrentStep(2);
-        // setShowAddPanel(false);
       } else {
         console.error("Error posting data to Strapi:", response.statusText);
       }
@@ -171,44 +158,15 @@ const AddProduct = () => {
   };
 
   return (
-    <div>
+    <>
       {imageId && (
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              height: "100%",
-              padding: "2px",
-              marginLeft: "30px",
-              marginRight: "30px",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                width: "100%",
-              }}
-            >
+          <Box sx={styles.addProductContainerSx()}>
+            <Box sx={styles.texFieldContainerSx()}>
               <TextField
                 label="title"
                 {...register("title", { required: true })}
-                sx={{
-                  marginBottom: "10px",
-                  width: "40%",
-                  "& .MuiFormHelperText-root": {
-                    color: "#02A2E4",
-                  },
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "10px",
-                    "& fieldset": {
-                      borderColor: " #73A5D3",
-                    },
-                  },
-                }}
+                sx={styles.textFieldSx()}
               />
               {errors.title && (
                 <Alert severity="error">this field is required??</Alert>
@@ -216,47 +174,17 @@ const AddProduct = () => {
               <TextField
                 label="price"
                 {...register("price", { required: true })}
-                sx={{
-                  marginBottom: "10px",
-                  width: "40%",
-                  "& .MuiFormHelperText-root": {
-                    color: "#02A2E4",
-                  },
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "10px",
-                    "& fieldset": {
-                      borderColor: " #73A5D3",
-                    },
-                  },
-                }}
+                sx={styles.textFieldSx()}
               />
               {errors.price && (
                 <Alert severity="error">this field is required??</Alert>
               )}
-            </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                width: "100%",
-              }}
-            >
+            </Box>
+            <Box sx={styles.texFieldContainerSx()}>
               <TextField
                 label="oldprice"
                 {...register("oldprice", { required: true })}
-                sx={{
-                  marginBottom: "10px",
-                  width: "40%",
-                  "& .MuiFormHelperText-root": {
-                    color: "#02A2E4",
-                  },
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "10px",
-                    "& fieldset": {
-                      borderColor: " #73A5D3",
-                    },
-                  },
-                }}
+                sx={styles.textFieldSx()}
               />
               {errors.oldprice && (
                 <Alert severity="error">this field is required??</Alert>
@@ -264,66 +192,36 @@ const AddProduct = () => {
               <TextField
                 label="discount"
                 {...register("discount", { required: true })}
-                sx={{
-                  marginBottom: "10px",
-                  width: "40%",
-                  "& .MuiFormHelperText-root": {
-                    color: "#02A2E4",
-                  },
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "10px",
-                    "& fieldset": {
-                      borderColor: " #73A5D3",
-                    },
-                  },
-                }}
+                sx={styles.textFieldSx()}
               />
               {errors.discount && (
                 <Alert severity="error">this field is required??</Alert>
               )}
-            </div>
+            </Box>
 
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                width: "100%",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <Typography sx={{ marginRight: "12px" }}>
+            <Box style={styles.texFieldContainerSx()}>
+              <Box sx={styles.formControlLableSx()}>
+                <Typography sx={styles.showTypographySx()}>
                   show in baner
                 </Typography>
                 <FormControlLabel
                   control={<Switch {...register("showInBaner")} />}
                 />
-              </div>
-              <div
-                style={{ width: "40%", display: "flex", alignItems: "center" }}
-              >
-                <Typography sx={{ marginRight: "12px" }}>
+              </Box>
+              <Box className="secondColumn" sx={styles.formControlLableSx()}>
+                <Typography sx={styles.showTypographySx()}>
                   show in carousel
                 </Typography>
                 <FormControlLabel
                   control={<Switch {...register("showInCarousel")} />}
                 />
-              </div>
-            </div>
+              </Box>
+            </Box>
 
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-around",
-                width: "100%",
-              }}
+            <Box
+              sx={styles.categoriesContainerSx()}
             >
-              <div>
+              <Box>
                 <InputLabel id="demo-multiple-chip-label">
                   Categories
                 </InputLabel>
@@ -333,7 +231,7 @@ const AddProduct = () => {
                   id="demo-multiple-chip"
                   multiple
                   value={selectedCategories}
-                  onChange={handleChange}
+                  onChange={selectCategoriesHandleChange}
                   input={
                     <OutlinedInput
                       id="select-multiple-chip"
@@ -342,11 +240,7 @@ const AddProduct = () => {
                   }
                   renderValue={(selected) => (
                     <Box
-                      sx={{
-                        display: "flex",
-                        flexWrap: "wrap",
-                        gap: 0.5,
-                      }}
+                      sx={styles.chipsContainerSx()}
                     >
                       {selected.map((value) => (
                         <Chip
@@ -359,11 +253,8 @@ const AddProduct = () => {
                       ))}
                     </Box>
                   )}
-                  MenuProps={MenuProps}
-                  sx={{
-                    minWidth: 250,
-                    marginTop: "10px",
-                  }}
+                  MenuProps={addProductTools.MenuProps}
+                  sx={styles.menuPropsSx()}
                 >
                   {categories.map((item) => (
                     <MenuItem key={item.id} value={item.id}>
@@ -371,14 +262,14 @@ const AddProduct = () => {
                     </MenuItem>
                   ))}
                 </Select>
-              </div>
-            </div>
+              </Box>
+            </Box>
             <Button
               variant="outlined"
               color="info"
               startIcon={<AddIcon />}
               type="submit"
-              sx={{ marginTop: "10px", width: "15%" }}
+              sx={styles.saveButtonSx()}
             >
               Save
             </Button>
@@ -388,16 +279,10 @@ const AddProduct = () => {
 
       {!imageId && (
         <FormControl
-          sx={{
-            marginTop: "10px",
-            width: "60%",
-            border: "1px solid #ccc",
-            borderRadius: "4px",
-            padding: "8px",
-          }}
+          sx={styles.formControlImageSx()}
         >
-          <img
-            style={{ width: "80px", height: "80px", marginBottom: "10px" }}
+          <Image
+            sx={styles.formUploadImageSx()}
             src={
               import.meta.env.VITE_BASE_URL +
               ((itemData?.attributes?.icon?.data != null &&
@@ -407,7 +292,7 @@ const AddProduct = () => {
             alt="image"
           />
           <InputLabel htmlFor="icon-upload" shrink>
-            Icon Upload
+            Image Upload
           </InputLabel>
           <Input
             id="icon-upload"
@@ -432,13 +317,13 @@ const AddProduct = () => {
         </FormControl>
       )}
       <Stepper activeStep={currentStep} alternativeLabel>
-        {steps.map((label) => (
+        {addProductTools.steps.map((label) => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
           </Step>
         ))}
       </Stepper>
-    </div>
+    </>
   );
 };
 

@@ -8,32 +8,29 @@ import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import EditProduct from "./EditProduct";
-import AddProduct from "./addProduct/AddProduct";
-
-
-
-
-
+import AddProduct from "../addProduct/AddProduct";
+import EditProduct from "../editProduct/EditProduct";
+import styles from "./index.styles";
 
 const ProductList = () => {
   const [productData, setProductData] = useState([]);
   const [showEditPanel, setShowEditPanel] = useState(false);
   const [showAddPanel, setShowAddPanel] = useState(false);
-  const [productId,setProductId]=useState(0);
+  const [productId, setProductId] = useState(0);
   const [formData, setFormData] = useState({});
+
   const columns = [
-    { field: "id", headerName: "ID", width: 90 },
+    { field: "id", headerName: "ID", width: 60},
     {
       field: "title",
       headerName: "title",
-      width: 190,
+      width: 170,
       editable: true,
     },
     {
       field: "image",
       headerName: "image",
-      width: 150,
+      width: 100,
       editable: true,
       renderCell: (params) => (
         <img
@@ -89,17 +86,18 @@ const ProductList = () => {
         <Stack direction="row" spacing={3}>
           <IconButton
             color="error"
-            onClick={() => {setShowEditPanel(true);
-            setProductId(params.row.id)
-            setFormData(params.row)
-          }} 
+            onClick={() => {
+              setShowEditPanel(true);
+              setProductId(params.row.id);
+              setFormData(params.row);
+            }}
             style={{ borderRadius: 0 }}
           >
             <EditIcon />
           </IconButton>
           <IconButton
             color="error"
-            onClick={() => deleteItem(params.row.id)} 
+            onClick={() => deleteItem(params.row.id)}
             style={{ borderRadius: 0 }}
           >
             <DeleteIcon />
@@ -112,26 +110,6 @@ const ProductList = () => {
   useEffect(() => {
     getData();
   }, []);
-
-
-  // useEffect(()=>{
-  //   getProductData()
-  // },[productId])
-
-  // const getProductData = () => {
-  //   fetch(import.meta.env.VITE_BASE_URL + "/api/products/"+productId+"?populate=*", {
-  //     headers: { Authorization: "bearer " + import.meta.env.VITE_API_KEY },
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //       setFormData(data.data)
-  //     })
-  //     .catch((error) => console.log(error));
-  // };
-
-
-
 
   const getData = () => {
     fetch(import.meta.env.VITE_BASE_URL + "/api/products?populate=*", {
@@ -149,7 +127,6 @@ const ProductList = () => {
   };
 
   const deleteItem = (itemId) => {
-    // Perform the deletion logic for the item with the given itemId
     if (confirm("you sure delete this item ?")) {
       fetch(import.meta.env.VITE_BASE_URL + "/api/products/" + itemId, {
         method: "DELETE",
@@ -166,16 +143,9 @@ const ProductList = () => {
     } else console.log("cancel");
   };
 
-
   return (
-    <Box sx={{ height: 400, width: "100%" }}>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
+    <Box sx={styles.mainContainerSx()}>
+      <Box sx={styles.headingContainerSx()}>
         <h2>Product</h2>
         <Button
           startIcon={<AddIcon />}
@@ -188,58 +158,6 @@ const ProductList = () => {
           Create new entry
         </Button>
       </Box>
-
-      {showEditPanel && (
-        <Box
-          sx={{
-            width:"60%",
-            marginBottom: "10px" ,
-            borderRadius: "20px",
-            backgroundColor: "#FFF",
-            boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
-           
-          }}
-        >
-          <IconButton
-            onClick={() => {
-              setShowEditPanel(false);
-         
-            }}
-          
-          >
-            <CloseIcon style={{ color: "#EE384E" }} />
-          </IconButton>
-          < EditProduct formData={formData}  productId={productId} refreshItem={getData}/>
-          
-        </Box>
-      )}
-      {showAddPanel && (
-        <Box
-          sx={{
-            width: "60%",
-            marginBottom: "10px" ,
-            borderRadius: "20px",
-            backgroundColor: "#FFF",
-            boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
-     
-          }}
-        >
-
-
-
-          <IconButton
-            onClick={() => {
-              setShowAddPanel(false);
-            }}
-   
-          >
-      
-            <CloseIcon style={{ color: "#EE384E" }} />
-          </IconButton>
-          < AddProduct />
-       
-        </Box>
-      )}
 
       <DataGrid
         rows={productData}
@@ -255,6 +173,38 @@ const ProductList = () => {
         checkboxSelection
         disableRowSelectionOnClick
       />
+
+      {showEditPanel && (
+        <Box sx={styles.panelsContainerSx()}>
+          <IconButton
+            onClick={() => {
+              setShowEditPanel(false);
+            }}
+          >
+            <CloseIcon className="closeIcon" />
+          </IconButton>
+          <EditProduct
+            formData={formData}
+            productId={productId}
+            refreshItem={getData}
+          />
+        </Box>
+      )}
+      {showAddPanel && (
+        <Box sx={{ display: "flex", flexDirection: "row", width: "100%" }}>
+          <IconButton
+            onClick={() => {
+              setShowAddPanel(false);
+            }}
+            disableRipple
+          >
+            <CloseIcon className="closeIcon" />
+          </IconButton>
+          <Box sx={styles.panelsContainerSx()}>
+            <AddProduct />
+          </Box>
+        </Box>
+      )}
     </Box>
   );
 };

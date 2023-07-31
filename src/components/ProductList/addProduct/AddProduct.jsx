@@ -18,9 +18,9 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import addProductTools from "./addProduct.tools";
-import styles from "./addProduct.styles";
+import styles from "../shared/productList.styles";
 import { Image } from "@mui/icons-material";
+import ProductListTools from "../shared/productList.tools";
 
 const AddProduct = () => {
   const [categories, setCategories] = useState([]);
@@ -199,7 +199,7 @@ const AddProduct = () => {
               )}
             </Box>
 
-            <Box style={styles.texFieldContainerSx()}>
+            <Box sx={styles.texFieldContainerSx()}>
               <Box sx={styles.formControlLableSx()}>
                 <Typography sx={styles.showTypographySx()}>
                   show in baner
@@ -218,9 +218,7 @@ const AddProduct = () => {
               </Box>
             </Box>
 
-            <Box
-              sx={styles.categoriesContainerSx()}
-            >
+            <Box sx={styles.categoriesContainerSx()}>
               <Box>
                 <InputLabel id="demo-multiple-chip-label">
                   Categories
@@ -239,9 +237,7 @@ const AddProduct = () => {
                     />
                   }
                   renderValue={(selected) => (
-                    <Box
-                      sx={styles.chipsContainerSx()}
-                    >
+                    <Box sx={styles.chipsContainerSx()}>
                       {selected.map((value) => (
                         <Chip
                           key={value}
@@ -253,7 +249,7 @@ const AddProduct = () => {
                       ))}
                     </Box>
                   )}
-                  MenuProps={addProductTools.MenuProps}
+                  MenuProps={ProductListTools.MenuProps}
                   sx={styles.menuPropsSx()}
                 >
                   {categories.map((item) => (
@@ -278,9 +274,7 @@ const AddProduct = () => {
       )}
 
       {!imageId && (
-        <FormControl
-          sx={styles.formControlImageSx()}
-        >
+        <FormControl sx={styles.formControlImageSx()}>
           <Image
             sx={styles.formUploadImageSx()}
             src={
@@ -317,7 +311,7 @@ const AddProduct = () => {
         </FormControl>
       )}
       <Stepper activeStep={currentStep} alternativeLabel>
-        {addProductTools.steps.map((label) => (
+        {ProductListTools.steps.map((label) => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
           </Step>

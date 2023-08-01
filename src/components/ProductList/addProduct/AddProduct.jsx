@@ -159,164 +159,191 @@ const AddProduct = () => {
 
   return (
     <>
-      {imageId && (
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Box sx={styles.addProductContainerSx()}>
-            <Box sx={styles.texFieldContainerSx()}>
-              <TextField
-                label="title"
-                {...register("title", { required: true })}
-                sx={styles.textFieldSx()}
+        <Box
+          sx={{
+            width: "calc(100% - 50px)",
+            display: "flex",
+            marginTop: "-35px",
+            marginBottom: "50px",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: 'gray'
+          }}
+        >
+          {!imageId && (
+            <FormControl sx={styles.formControlImageSx()}>
+              <Image
+                sx={styles.formUploadImageSx()}
+                src={
+                  import.meta.env.VITE_BASE_URL +
+                  ((itemData?.attributes?.icon?.data != null &&
+                    itemData.attributes.icon.data[0]?.attributes?.url) ||
+                    "")
+                }
+                alt="image"
               />
-              {errors.title && (
-                <Alert severity="error">this field is required??</Alert>
-              )}
-              <TextField
-                label="price"
-                {...register("price", { required: true })}
-                sx={styles.textFieldSx()}
+              <InputLabel htmlFor="icon-upload" shrink>
+                Image Upload
+              </InputLabel>
+              <Input
+                id="icon-upload"
+                type="file"
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  setImageFile(file);
+                }}
               />
-              {errors.price && (
-                <Alert severity="error">this field is required??</Alert>
-              )}
-            </Box>
-            <Box sx={styles.texFieldContainerSx()}>
-              <TextField
-                label="oldprice"
-                {...register("oldprice", { required: true })}
-                sx={styles.textFieldSx()}
-              />
-              {errors.oldprice && (
-                <Alert severity="error">this field is required??</Alert>
-              )}
-              <TextField
-                label="discount"
-                {...register("discount", { required: true })}
-                sx={styles.textFieldSx()}
-              />
-              {errors.discount && (
-                <Alert severity="error">this field is required??</Alert>
-              )}
-            </Box>
+              <FormHelperText>
+                {imageFile ? imageFile.name : "Choose an image file"}
+              </FormHelperText>
+              <Button
+                variant="contained"
+                component="label"
+                startIcon={<CloudUploadIcon />}
+                onClick={uploadImage}
+                disabled={!imageFile}
+              >
+                Upload
+              </Button>
+            </FormControl>
+          )}
+        </Box>
 
-            <Box sx={styles.texFieldContainerSx()}>
-              <Box sx={styles.formControlLableSx()}>
-                <Typography sx={styles.showTypographySx()}>
-                  show in baner
-                </Typography>
-                <FormControlLabel
-                  control={<Switch {...register("showInBaner")} />}
-                />
-              </Box>
-              <Box className="secondColumn" sx={styles.formControlLableSx()}>
-                <Typography sx={styles.showTypographySx()}>
-                  show in carousel
-                </Typography>
-                <FormControlLabel
-                  control={<Switch {...register("showInCarousel")} />}
-                />
-              </Box>
-            </Box>
-
-            <Box sx={styles.categoriesContainerSx()}>
-              <Box>
-                <InputLabel id="demo-multiple-chip-label">
-                  Categories
-                </InputLabel>
-                <Select
-                  {...register("categories")}
-                  labelId="demo-multiple-chip-label"
-                  id="demo-multiple-chip"
-                  multiple
-                  value={selectedCategories}
-                  onChange={selectCategoriesHandleChange}
-                  input={
-                    <OutlinedInput
-                      id="select-multiple-chip"
-                      label="Categories"
-                    />
-                  }
-                  renderValue={(selected) => (
-                    <Box sx={styles.chipsContainerSx()}>
-                      {selected.map((value) => (
-                        <Chip
-                          key={value}
-                          label={
-                            categories.find((category) => category.id === value)
-                              ?.title
-                          }
-                        />
-                      ))}
-                    </Box>
+        <Box
+          sx={{
+            display: "flex",
+            marginTop: "-35px",
+            marginBottom: "10px",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {imageId && (
+            <Box sx={styles.addProductContainerSx()}>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <Box sx={styles.texFieldContainerSx()}>
+                  <TextField
+                    label="title"
+                    {...register("title", { required: true })}
+                    sx={styles.textFieldSx()}
+                  />
+                  {errors.title && (
+                    <Alert severity="error">this field is required??</Alert>
                   )}
-                  MenuProps={ProductListTools.MenuProps}
-                  sx={styles.menuPropsSx()}
-                >
-                  {categories.map((item) => (
-                    <MenuItem key={item.id} value={item.id}>
-                      {item.title}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </Box>
-            </Box>
-            <Button
-              variant="outlined"
-              color="info"
-              startIcon={<AddIcon />}
-              type="submit"
-              sx={styles.saveButtonSx()}
-            >
-              Save
-            </Button>
-          </Box>
-        </form>
-      )}
+                  <TextField
+                    label="price"
+                    {...register("price", { required: true })}
+                    sx={styles.textFieldSx()}
+                  />
+                  {errors.price && (
+                    <Alert severity="error">this field is required??</Alert>
+                  )}
+                </Box>
+                <Box sx={styles.texFieldContainerSx()}>
+                  <TextField
+                    label="oldprice"
+                    {...register("oldprice", { required: true })}
+                    sx={styles.textFieldSx()}
+                  />
+                  {errors.oldprice && (
+                    <Alert severity="error">this field is required??</Alert>
+                  )}
+                  <TextField
+                    label="discount"
+                    {...register("discount", { required: true })}
+                    sx={styles.textFieldSx()}
+                  />
+                  {errors.discount && (
+                    <Alert severity="error">this field is required??</Alert>
+                  )}
+                </Box>
 
-      {!imageId && (
-        <FormControl sx={styles.formControlImageSx()}>
-          <Image
-            sx={styles.formUploadImageSx()}
-            src={
-              import.meta.env.VITE_BASE_URL +
-              ((itemData?.attributes?.icon?.data != null &&
-                itemData.attributes.icon.data[0]?.attributes?.url) ||
-                "")
-            }
-            alt="image"
-          />
-          <InputLabel htmlFor="icon-upload" shrink>
-            Image Upload
-          </InputLabel>
-          <Input
-            id="icon-upload"
-            type="file"
-            onChange={(e) => {
-              const file = e.target.files[0];
-              setImageFile(file);
-            }}
-          />
-          <FormHelperText>
-            {imageFile ? imageFile.name : "Choose an image file"}
-          </FormHelperText>
-          <Button
-            variant="contained"
-            component="label"
-            startIcon={<CloudUploadIcon />}
-            onClick={uploadImage}
-            disabled={!imageFile}
-          >
-            Upload
-          </Button>
-        </FormControl>
-      )}
-      <Stepper activeStep={currentStep} alternativeLabel>
-        {ProductListTools.steps.map((label) => (
-          <Step key={label}>
-            <StepLabel>{label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
+                <Box sx={styles.texFieldContainerSx()}>
+                  <Box sx={styles.formControlLableSx()}>
+                    <Typography sx={styles.showTypographySx()}>
+                      show in baner
+                    </Typography>
+                    <FormControlLabel
+                      control={<Switch {...register("showInBaner")} />}
+                    />
+                  </Box>
+                  <Box
+                    className="secondColumn"
+                    sx={styles.formControlLableSx()}
+                  >
+                    <Typography sx={styles.showTypographySx()}>
+                      show in carousel
+                    </Typography>
+                    <FormControlLabel
+                      control={<Switch {...register("showInCarousel")} />}
+                    />
+                  </Box>
+                </Box>
+
+                <Box sx={styles.categoriesContainerSx()}>
+                  <Box>
+                    <InputLabel id="demo-multiple-chip-label">
+                      Categories
+                    </InputLabel>
+                    <Select
+                      {...register("categories")}
+                      labelId="demo-multiple-chip-label"
+                      id="demo-multiple-chip"
+                      multiple
+                      value={selectedCategories}
+                      onChange={selectCategoriesHandleChange}
+                      input={
+                        <OutlinedInput
+                          id="select-multiple-chip"
+                          label="Categories"
+                        />
+                      }
+                      renderValue={(selected) => (
+                        <Box sx={styles.chipsContainerSx()}>
+                          {selected.map((value) => (
+                            <Chip
+                              key={value}
+                              label={
+                                categories.find(
+                                  (category) => category.id === value
+                                )?.title
+                              }
+                            />
+                          ))}
+                        </Box>
+                      )}
+                      MenuProps={ProductListTools.MenuProps}
+                      sx={styles.menuPropsSx()}
+                    >
+                      {categories.map((item) => (
+                        <MenuItem key={item.id} value={item.id}>
+                          {item.title}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </Box>
+                </Box>
+                <Button
+                  variant="outlined"
+                  color="info"
+                  startIcon={<AddIcon />}
+                  type="submit"
+                  sx={styles.saveButtonSx()}
+                >
+                  Save
+                </Button>
+              </form>
+            </Box>
+          )}
+        </Box>
+
+        <Stepper activeStep={currentStep} alternativeLabel>
+          {ProductListTools.steps.map((label) => (
+            <Step key={label}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
     </>
   );
 };

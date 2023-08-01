@@ -15,22 +15,27 @@ import styles from "./index.styles";
 const ProductList = () => {
   const [productData, setProductData] = useState([]);
   const [showEditPanel, setShowEditPanel] = useState(false);
-  const [showAddPanel, setShowAddPanel] = useState(false);
+  //*change the state to false later
+  const [showAddPanel, setShowAddPanel] = useState(true);
   const [productId, setProductId] = useState(0);
   const [formData, setFormData] = useState({});
 
   const columns = [
-    { field: "id", headerName: "ID", width: 60},
+    { field: "id", headerName: "ID", width: 60 },
     {
       field: "title",
       headerName: "title",
       width: 170,
       editable: true,
+      headerAlign: "center",
+      align: "center",
     },
     {
       field: "image",
       headerName: "image",
       width: 100,
+      headerAlign: "center",
+      align: "center",
       editable: true,
       renderCell: (params) => (
         <img
@@ -40,7 +45,12 @@ const ProductList = () => {
               "")
           }
           alt="Product"
-          style={{ width: 50, margin: "6px" }}
+          style={{
+            width: "100%",
+            height: "100%",
+            marginTop: "10px",
+            marginBottom: "10px",
+          }}
         />
       ),
     },
@@ -50,6 +60,8 @@ const ProductList = () => {
       type: "number",
       width: 110,
       editable: true,
+      headerAlign: "center",
+      align: "center",
     },
     {
       field: "price",
@@ -57,6 +69,8 @@ const ProductList = () => {
       type: "number",
       width: 110,
       editable: true,
+      headerAlign: "center",
+      align: "center",
     },
 
     {
@@ -65,23 +79,31 @@ const ProductList = () => {
       type: "number",
       width: 110,
       editable: true,
+      headerAlign: "center",
+      align: "center",
     },
     {
       field: "showinbaner",
       headerName: "showinbaner",
       width: 150,
       editable: true,
+      headerAlign: "center",
+      align: "center",
     },
     {
       field: "showincarousel",
       headerName: "showinbaner",
       width: 150,
       editable: true,
+      headerAlign: "center",
+      align: "center",
     },
     {
       field: "actions",
-      headerName: "",
+      headerName: "Delete&Edit",
       width: 150,
+      headerAlign: "center",
+      align: "center",
       renderCell: (params) => (
         <Stack direction="row" spacing={3}>
           <IconButton
@@ -159,20 +181,27 @@ const ProductList = () => {
         </Button>
       </Box>
 
-      <DataGrid
-        rows={productData}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 5,
+      <Box>
+        <DataGrid
+          sx={{
+            "&.MuiDataGrid-row": {
+              padding: "10px",
             },
-          },
-        }}
-        pageSizeOptions={[5]}
-        checkboxSelection
-        disableRowSelectionOnClick
-      />
+          }}
+          rows={productData}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 5,
+              },
+            },
+          }}
+          pageSizeOptions={[5]}
+          checkboxSelection
+          disableRowSelectionOnClick
+        />
+      </Box>
 
       {showEditPanel && (
         <Box sx={styles.panelsContainerSx()}>
@@ -191,16 +220,29 @@ const ProductList = () => {
         </Box>
       )}
       {showAddPanel && (
-        <Box sx={{ display: "flex", flexDirection: "row", width: "100%" }}>
-          <IconButton
-            onClick={() => {
-              setShowAddPanel(false);
-            }}
-            disableRipple
-          >
-            <CloseIcon className="closeIcon" />
-          </IconButton>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            marginTop: "40px",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <Box sx={styles.panelsContainerSx()}>
+            <IconButton
+              sx={{
+                position: "relative",
+                top: 0,
+                left: 280,
+              }}
+              onClick={() => {
+                setShowAddPanel(false);
+              }}
+              disableRipple
+            >
+              <CloseIcon className="closeIcon" />
+            </IconButton>
             <AddProduct />
           </Box>
         </Box>

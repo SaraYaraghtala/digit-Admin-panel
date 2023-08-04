@@ -16,7 +16,7 @@ const ProductList = () => {
   const [productData, setProductData] = useState([]);
   const [showEditPanel, setShowEditPanel] = useState(false);
   //*change the state to false later
-  const [showAddPanel, setShowAddPanel] = useState(true);
+  const [showAddPanel, setShowAddPanel] = useState(false);
   const [productId, setProductId] = useState(0);
   const [formData, setFormData] = useState({});
 
@@ -203,8 +203,22 @@ const ProductList = () => {
       </Box>
 
       {showEditPanel && (
+          <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            marginTop: "40px",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
         <Box sx={styles.panelsContainerSx()}>
           <IconButton
+          sx={{
+            position: "relative",
+            top: 0,
+            left: 280,
+          }}
             onClick={() => {
               setShowEditPanel(false);
             }}
@@ -216,6 +230,7 @@ const ProductList = () => {
             productId={productId}
             refreshItem={getData}
           />
+        </Box>
         </Box>
       )}
       {showAddPanel && (
@@ -241,7 +256,7 @@ const ProductList = () => {
               disableRipple
             >
               <CloseIcon className="closeIcon" />
-            </IconButton>
+            </IconButton >
             <AddProduct />
           </Box>
         </Box>

@@ -52,13 +52,11 @@ const chipsContainerSx = () => ({
 const saveButtonSx = () => ({
   marginTop: "10px",
   width: "40%",
+  marginLeft: "150px",
   alignItems: "center",
   display: "flex",
   justifyContent: "center",
   borderRadius: "10px",
-  margin: 'auto',
-  marginTop: '10px',
-
 });
 
 const formControlImageSx = () => ({

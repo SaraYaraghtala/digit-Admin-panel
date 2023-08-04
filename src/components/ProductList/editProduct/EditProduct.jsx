@@ -141,7 +141,7 @@ const EditProduct = ({ productId, formData, refreshItem }) => {
   };
 
   return (
-    <div>
+    <>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box sx={styles.addProductContainerSx()}>
           <Box sx={styles.texFieldContainerSx()}>
@@ -255,9 +255,20 @@ const EditProduct = ({ productId, formData, refreshItem }) => {
                 src={import.meta.env.VITE_BASE_URL + itemData}
                 alt="image"
               />
-              <InputLabel htmlFor="icon-upload" shrink>
+              <InputLabel htmlFor="icon-upload" shrink sx={{ marginTop: "10px" }}>
+              <Typography sx={{ fontSize: "1.3rem" }} color="primary">
+                {" "}
                 Image Upload
+              </Typography>
               </InputLabel>
+              <Button variant="outlined" component="label" htmlFor="icon-upload">
+              <Typography
+                sx={{ fontSize: "1.1rem", textTransform: "none" }}
+                color="primary"
+              >
+                {" "}
+                {imageFile ? imageFile.name : "Choose an image file"}
+              </Typography>
               <Input
                 id="icon-upload"
                 type="file"
@@ -265,19 +276,21 @@ const EditProduct = ({ productId, formData, refreshItem }) => {
                   const file = e.target.files[0];
                   setImageFile(file);
                 }}
+                style={{ display: "none" }}
               />
-              <FormHelperText>
-                {imageFile ? imageFile.name : "Choose an image file"}
-              </FormHelperText>
+            </Button>
+            <Box sx={{ marginTop: "1rem" , width: "90%"}}>
               <Button
                 variant="contained"
                 component="label"
                 startIcon={<CloudUploadIcon />}
                 onClick={uploadImage}
                 disabled={!imageFile}
+                sx={{ width: "100%" }}
               >
                 Upload
               </Button>
+            </Box>
             </FormControl>
           </Box>
 
@@ -292,7 +305,7 @@ const EditProduct = ({ productId, formData, refreshItem }) => {
           </Button>
         </Box>
       </form>
-    </div>
+    </>
   );
 };
 

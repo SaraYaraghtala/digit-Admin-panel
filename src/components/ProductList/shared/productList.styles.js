@@ -39,7 +39,7 @@ const formControlLableSx = () => ({
 const categoriesContainerSx = () => ({
   display: "flex",
   alignItems: "center",
-  justifyContent: "space-around",
+
   width: "100%",
 });
 
@@ -57,6 +57,7 @@ const saveButtonSx = () => ({
   display: "flex",
   justifyContent: "center",
   borderRadius: "10px",
+  "&.secondStyle":{width:"60%", marginLeft:"60px"}
 });
 
 const formControlImageSx = () => ({

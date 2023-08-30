@@ -9,5 +9,11 @@ const theme = createTheme({
       contrastText: "#fff",
     },
   },
+  // typography: {
+  //   fontFamily: {
+  //     main: "sans-serif",
+  //     secndary: "Roboto",
+  //   },
+  // },
 });
 export default theme;

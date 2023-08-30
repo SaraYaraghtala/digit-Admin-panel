@@ -4,8 +4,8 @@ import UserTable from "./usersTable/UserTable";
 
 const SiteUsers = () => {
   return (
-    <Box>
-      <Typography>Authors Table</Typography>
+    <Box sx={{ marginX:"20px" }}>
+      <Typography sx={{ marginX:"120px" }}>Authors Table</Typography>
       <UserTable />
     </Box>
   );

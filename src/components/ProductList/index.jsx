@@ -11,11 +11,13 @@ import { useEffect, useState } from "react";
 import AddProduct from "./addProduct/AddProduct";
 import EditProduct from "./editProduct/EditProduct";
 import styles from "./index.styles";
+import { Typography, useTheme } from "@mui/material";
 
 const ProductList = () => {
+  const theme = useTheme();
+
   const [productData, setProductData] = useState([]);
   const [showEditPanel, setShowEditPanel] = useState(false);
-  //*change the state to false later
   const [showAddPanel, setShowAddPanel] = useState(false);
   const [productId, setProductId] = useState(0);
   const [formData, setFormData] = useState({});
@@ -169,14 +171,14 @@ const ProductList = () => {
       <Box sx={styles.headingContainerSx()}>
         <h2>Product</h2>
         <Button
+          color="info"
           startIcon={<AddIcon />}
           variant="contained"
-          color="primary"
           onClick={() => {
             setShowAddPanel(true);
           }}
         >
-          Create new entry
+          <Typography>Create new entry</Typography>
         </Button>
       </Box>
 
@@ -203,7 +205,7 @@ const ProductList = () => {
       </Box>
 
       {showEditPanel && (
-          <Box
+        <Box
           sx={{
             display: "flex",
             flexDirection: "row",
@@ -212,25 +214,25 @@ const ProductList = () => {
             alignItems: "center",
           }}
         >
-        <Box sx={styles.panelsContainerSx()}>
-          <IconButton
-          sx={{
-            position: "relative",
-            top: 0,
-            left: 280,
-          }}
-            onClick={() => {
-              setShowEditPanel(false);
-            }}
-          >
-            <CloseIcon className="closeIcon" />
-          </IconButton>
-          <EditProduct
-            formData={formData}
-            productId={productId}
-            refreshItem={getData}
-          />
-        </Box>
+          <Box sx={styles.panelsContainerSx()}>
+            <IconButton
+              sx={{
+                position: "relative",
+                top: 0,
+                left: 280,
+              }}
+              onClick={() => {
+                setShowEditPanel(false);
+              }}
+            >
+              <CloseIcon className="closeIcon" />
+            </IconButton>
+            <EditProduct
+              formData={formData}
+              productId={productId}
+              refreshItem={getData}
+            />
+          </Box>
         </Box>
       )}
       {showAddPanel && (
@@ -256,7 +258,7 @@ const ProductList = () => {
               disableRipple
             >
               <CloseIcon className="closeIcon" />
-            </IconButton >
+            </IconButton>
             <AddProduct />
           </Box>
         </Box>

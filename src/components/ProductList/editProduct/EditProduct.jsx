@@ -1,7 +1,7 @@
 import { Image } from "@mui/icons-material";
 import AddIcon from "@mui/icons-material/Add";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { FormControl, FormHelperText, Input } from "@mui/material";
+import { FormControl, Input } from "@mui/material";
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -18,7 +18,6 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import styles from "../shared/productList.styles";
 import ProductListTools from "../shared/productList.tools";
-
 
 const EditProduct = ({ productId, formData, refreshItem }) => {
   const [categories, setCategories] = useState([]);
@@ -56,7 +55,6 @@ const EditProduct = ({ productId, formData, refreshItem }) => {
           return { id: item.id, title: item.attributes.title };
         });
         setCategories(tempRow);
-        console.log(tempRow);
       })
       .catch((error) => console.log(error));
   };
@@ -103,6 +101,7 @@ const EditProduct = ({ productId, formData, refreshItem }) => {
         console.error("Error posting data to Strapi:", response.statusText);
       }
     } catch (error) {
+      // #toast handle this with react toast later
       console.error("Error posting data to Strapi:", error);
     }
   };

@@ -1,6 +1,0 @@
-const C_PRODUCT_LIST= {
-  ITEM_HEIGHT: 48,
-  ITEM_PADDING_TOP: 8,
-};
-
-export default C_PRODUCT_LIST;

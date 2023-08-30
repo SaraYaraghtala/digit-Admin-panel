@@ -1,4 +1,8 @@
-const mainContainerSx = () => ({ height: 400, width: "100%" });
+const mainContainerSx = () => ({
+  height: 400,
+  width: "100%",
+  padding: "0 90px",
+});
 
 const headingContainerSx = () => ({
   display: "flex",
@@ -7,7 +11,8 @@ const headingContainerSx = () => ({
 });
 
 const panelsContainerSx = () => ({
-  width: "60%",
+  width: "600px",
+  height: "100%",
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
@@ -16,9 +21,6 @@ const panelsContainerSx = () => ({
   borderRadius: "20px",
   backgroundColor: "#FFF",
   boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
-  "& .closeIcon": {
-    color: "#EE384E",
-  },
 });
 
 const productListIndexStyles = {

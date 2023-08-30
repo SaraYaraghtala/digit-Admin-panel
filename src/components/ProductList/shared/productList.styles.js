@@ -3,8 +3,6 @@ const addProductContainerSx = () => ({
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
-  height: "100%",
-  width: "100%",
   padding: "2px",
   marginLeft: "30px",
   marginRight: "30px",
@@ -18,7 +16,9 @@ const texFieldContainerSx = () => ({
 
 const textFieldSx = () => ({
   marginBottom: "10px",
-  width: "40%",
+  fontSize: "20px", // Adjust the font size as needed
+  marginRight: "30px",
+  width: "80%",
   "& .MuiFormHelperText-root": {
     color: "#02A2E4",
   },
@@ -33,13 +33,13 @@ const textFieldSx = () => ({
 const formControlLableSx = () => ({
   display: "flex",
   alignItems: "center",
-  "&.secondColumn": { width: "40%" },
+  "&.secondColumn": { width: "50%" },
 });
 
 const categoriesContainerSx = () => ({
   display: "flex",
   alignItems: "center",
-  justifyContent: "space-around",
+
   width: "100%",
 });
 
@@ -49,20 +49,37 @@ const chipsContainerSx = () => ({
   gap: 0.5,
 });
 
-const saveButtonSx = () => ({ marginTop: "10px", width: "15%" });
+const saveButtonSx = () => ({
+  marginTop: "10px",
+  width: "40%",
+  marginLeft: "150px",
+  alignItems: "center",
+  display: "flex",
+  justifyContent: "center",
+  borderRadius: "10px",
+  "&.secondStyle":{width:"60%", marginLeft:"60px"}
+});
 
 const formControlImageSx = () => ({
+  backgroundColor: "#edf2f4",
   marginTop: "10px",
   width: "60%",
   border: "1px solid #ccc",
   borderRadius: "4px",
   padding: "8px",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  "& #icon-upload[type='file'] ": {
+    backgroundColor: "green",
+  },
 });
 
 const formUploadImageSx = () => ({
   width: "80px",
   height: "80px",
   marginBottom: "10px",
+  marginTop: "20px",
 });
 
 const showTypographySx = () => ({ marginRight: "12px" });

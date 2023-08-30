@@ -1,7 +1,7 @@
 import { Image } from "@mui/icons-material";
 import AddIcon from "@mui/icons-material/Add";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { FormControl, FormHelperText, Input } from "@mui/material";
+import { FormControl, Input } from "@mui/material";
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -55,7 +55,6 @@ const EditProduct = ({ productId, formData, refreshItem }) => {
           return { id: item.id, title: item.attributes.title };
         });
         setCategories(tempRow);
-        console.log(tempRow);
       })
       .catch((error) => console.log(error));
   };
@@ -102,6 +101,7 @@ const EditProduct = ({ productId, formData, refreshItem }) => {
         console.error("Error posting data to Strapi:", response.statusText);
       }
     } catch (error) {
+      // #toast handle this with react toast later
       console.error("Error posting data to Strapi:", error);
     }
   };
@@ -141,7 +141,7 @@ const EditProduct = ({ productId, formData, refreshItem }) => {
   };
 
   return (
-    <div>
+    <>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box sx={styles.addProductContainerSx()}>
           <Box sx={styles.texFieldContainerSx()}>
@@ -160,6 +160,7 @@ const EditProduct = ({ productId, formData, refreshItem }) => {
               defaultValue={formData.price}
               sx={styles.textFieldSx()}
             />
+
             {errors.price && (
               <Alert severity="error">this field is required??</Alert>
             )}
@@ -214,7 +215,7 @@ const EditProduct = ({ productId, formData, refreshItem }) => {
             </Box>
           </Box>
           <Box sx={styles.categoriesContainerSx()}>
-            <Box>
+            <Box sx={{ marginRight: "40px" }}>
               <InputLabel id="demo-multiple-chip-label">Categories</InputLabel>
               <Select
                 labelId="demo-multiple-chip-label"
@@ -247,6 +248,17 @@ const EditProduct = ({ productId, formData, refreshItem }) => {
                   </MenuItem>
                 ))}
               </Select>
+
+              <Button
+                variant="outlined"
+                color="info"
+                startIcon={<AddIcon />}
+                type="submit"
+                className="secondStyle"
+                sx={styles.saveButtonSx()}
+              >
+                Save
+              </Button>
             </Box>
 
             <FormControl sx={styles.formControlImageSx()}>
@@ -255,44 +267,55 @@ const EditProduct = ({ productId, formData, refreshItem }) => {
                 src={import.meta.env.VITE_BASE_URL + itemData}
                 alt="image"
               />
-              <InputLabel htmlFor="icon-upload" shrink>
-                Image Upload
-              </InputLabel>
-              <Input
-                id="icon-upload"
-                type="file"
-                onChange={(e) => {
-                  const file = e.target.files[0];
-                  setImageFile(file);
-                }}
-              />
-              <FormHelperText>
-                {imageFile ? imageFile.name : "Choose an image file"}
-              </FormHelperText>
-              <Button
-                variant="contained"
-                component="label"
-                startIcon={<CloudUploadIcon />}
-                onClick={uploadImage}
-                disabled={!imageFile}
+              <InputLabel
+                htmlFor="icon-upload"
+                shrink
+                sx={{ marginTop: "10px" }}
               >
-                Upload
+                <Typography sx={{ fontSize: "1.3rem" }} color="primary">
+                  {" "}
+                  Image Upload
+                </Typography>
+              </InputLabel>
+              <Button
+                variant="outlined"
+                component="label"
+                htmlFor="icon-upload"
+              >
+                <Typography
+                  sx={{ fontSize: "1.1rem", textTransform: "none" }}
+                  color="primary"
+                >
+                  {" "}
+                  {imageFile ? imageFile.name : "Choose an image file"}
+                </Typography>
+                <Input
+                  id="icon-upload"
+                  type="file"
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    setImageFile(file);
+                  }}
+                  style={{ display: "none" }}
+                />
               </Button>
+              <Box sx={{ marginTop: "1rem", width: "90%" }}>
+                <Button
+                  variant="contained"
+                  component="label"
+                  startIcon={<CloudUploadIcon />}
+                  onClick={uploadImage}
+                  disabled={!imageFile}
+                  sx={{ width: "100%" }}
+                >
+                  Upload
+                </Button>
+              </Box>
             </FormControl>
           </Box>
-
-          <Button
-            variant="outlined"
-            color="info"
-            startIcon={<AddIcon />}
-            type="submit"
-            sx={styles.saveButtonSx()}
-          >
-            Save
-          </Button>
         </Box>
       </form>
-    </div>
+    </>
   );
 };
 

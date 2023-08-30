@@ -1,6 +1,6 @@
 import AddIcon from "@mui/icons-material/Add";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { FormControl, FormHelperText, Input } from "@mui/material";
+import { FormControl, Input } from "@mui/material";
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -159,164 +159,203 @@ const AddProduct = () => {
 
   return (
     <>
-      {imageId && (
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Box sx={styles.addProductContainerSx()}>
-            <Box sx={styles.texFieldContainerSx()}>
-              <TextField
-                label="title"
-                {...register("title", { required: true })}
-                sx={styles.textFieldSx()}
+      <Box
+        sx={{
+          width: "calc(100% - 50px)",
+          display: "flex",
+          marginTop: "-35px",
+          marginBottom: "50px",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {!imageId && (
+          <FormControl sx={styles.formControlImageSx()}>
+            <Image
+              sx={styles.formUploadImageSx()}
+              src={
+                import.meta.env.VITE_BASE_URL +
+                ((itemData?.attributes?.icon?.data != null &&
+                  itemData.attributes.icon.data[0]?.attributes?.url) ||
+                  "")
+              }
+              alt="image"
+            />
+            <InputLabel htmlFor="icon-upload" shrink sx={{ marginTop: "10px" }}>
+              <Typography sx={{ fontSize: "1.3rem" }} color="primary">
+                {" "}
+                Image Upload
+              </Typography>
+            </InputLabel>
+            <Button variant="outlined" component="label" htmlFor="icon-upload">
+              <Typography
+                sx={{ fontSize: "1.1rem", textTransform: "none" }}
+                color="primary"
+              >
+                {" "}
+                {imageFile ? imageFile.name : "Choose an image file"}
+              </Typography>
+              <Input
+                id="icon-upload"
+                type="file"
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  setImageFile(file);
+                }}
+                style={{ display: "none" }}
               />
-              {errors.title && (
-                <Alert severity="error">this field is required??</Alert>
-              )}
-              <TextField
-                label="price"
-                {...register("price", { required: true })}
-                sx={styles.textFieldSx()}
-              />
-              {errors.price && (
-                <Alert severity="error">this field is required??</Alert>
-              )}
-            </Box>
-            <Box sx={styles.texFieldContainerSx()}>
-              <TextField
-                label="oldprice"
-                {...register("oldprice", { required: true })}
-                sx={styles.textFieldSx()}
-              />
-              {errors.oldprice && (
-                <Alert severity="error">this field is required??</Alert>
-              )}
-              <TextField
-                label="discount"
-                {...register("discount", { required: true })}
-                sx={styles.textFieldSx()}
-              />
-              {errors.discount && (
-                <Alert severity="error">this field is required??</Alert>
-              )}
-            </Box>
-
-            <Box sx={styles.texFieldContainerSx()}>
-              <Box sx={styles.formControlLableSx()}>
-                <Typography sx={styles.showTypographySx()}>
-                  show in baner
-                </Typography>
-                <FormControlLabel
-                  control={<Switch {...register("showInBaner")} />}
-                />
-              </Box>
-              <Box className="secondColumn" sx={styles.formControlLableSx()}>
-                <Typography sx={styles.showTypographySx()}>
-                  show in carousel
-                </Typography>
-                <FormControlLabel
-                  control={<Switch {...register("showInCarousel")} />}
-                />
-              </Box>
-            </Box>
-
-            <Box sx={styles.categoriesContainerSx()}>
-              <Box>
-                <InputLabel id="demo-multiple-chip-label">
-                  Categories
-                </InputLabel>
-                <Select
-                  {...register("categories")}
-                  labelId="demo-multiple-chip-label"
-                  id="demo-multiple-chip"
-                  multiple
-                  value={selectedCategories}
-                  onChange={selectCategoriesHandleChange}
-                  input={
-                    <OutlinedInput
-                      id="select-multiple-chip"
-                      label="Categories"
-                    />
-                  }
-                  renderValue={(selected) => (
-                    <Box sx={styles.chipsContainerSx()}>
-                      {selected.map((value) => (
-                        <Chip
-                          key={value}
-                          label={
-                            categories.find((category) => category.id === value)
-                              ?.title
-                          }
-                        />
-                      ))}
-                    </Box>
-                  )}
-                  MenuProps={ProductListTools.MenuProps}
-                  sx={styles.menuPropsSx()}
-                >
-                  {categories.map((item) => (
-                    <MenuItem key={item.id} value={item.id}>
-                      {item.title}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </Box>
-            </Box>
-            <Button
-              variant="outlined"
-              color="info"
-              startIcon={<AddIcon />}
-              type="submit"
-              sx={styles.saveButtonSx()}
-            >
-              Save
             </Button>
-          </Box>
-        </form>
-      )}
 
-      {!imageId && (
-        <FormControl sx={styles.formControlImageSx()}>
-          <Image
-            sx={styles.formUploadImageSx()}
-            src={
-              import.meta.env.VITE_BASE_URL +
-              ((itemData?.attributes?.icon?.data != null &&
-                itemData.attributes.icon.data[0]?.attributes?.url) ||
-                "")
-            }
-            alt="image"
-          />
-          <InputLabel htmlFor="icon-upload" shrink>
-            Image Upload
-          </InputLabel>
-          <Input
-            id="icon-upload"
-            type="file"
-            onChange={(e) => {
-              const file = e.target.files[0];
-              setImageFile(file);
-            }}
-          />
-          <FormHelperText>
-            {imageFile ? imageFile.name : "Choose an image file"}
-          </FormHelperText>
-          <Button
-            variant="contained"
-            component="label"
-            startIcon={<CloudUploadIcon />}
-            onClick={uploadImage}
-            disabled={!imageFile}
-          >
-            Upload
-          </Button>
-        </FormControl>
-      )}
-      <Stepper activeStep={currentStep} alternativeLabel>
+            <Box sx={{ marginTop: "1rem" , width: "90%"}}>
+              <Button
+                variant="contained"
+                component="label"
+                startIcon={<CloudUploadIcon />}
+                onClick={uploadImage}
+                disabled={!imageFile}
+                sx={{ width: "100%" }}
+              >
+                Upload
+              </Button>
+            </Box>
+          </FormControl>
+        )}
+      </Box>
+
+      <Box
+        sx={{
+          display: "flex",
+          marginTop: "-35px",
+          marginBottom: "10px",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {imageId && (
+          <Box sx={styles.addProductContainerSx()}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Box sx={styles.texFieldContainerSx()}>
+                <TextField
+                  label="title"
+                  {...register("title", { required: true })}
+                  sx={styles.textFieldSx()}
+                />
+                {errors.title && (
+                  <Alert severity="error">this field is required??</Alert>
+                )}
+                <TextField
+                  label="price"
+                  {...register("price", { required: true })}
+                  sx={styles.textFieldSx()}
+                />
+                {errors.price && (
+                  <Alert severity="error">this field is required??</Alert>
+                )}
+              </Box>
+              <Box sx={styles.texFieldContainerSx()}>
+                <TextField
+                  label="oldprice"
+                  {...register("oldprice", { required: true })}
+                  sx={styles.textFieldSx()}
+                />
+                {errors.oldprice && (
+                  <Alert severity="error">this field is required??</Alert>
+                )}
+                <TextField
+                  label="discount"
+                  {...register("discount", { required: true })}
+                  sx={styles.textFieldSx()}
+                />
+                {errors.discount && (
+                  <Alert severity="error">this field is required??</Alert>
+                )}
+              </Box>
+
+              <Box sx={styles.texFieldContainerSx()}>
+                <Box sx={styles.formControlLableSx()}>
+                  <Typography sx={styles.showTypographySx()}>
+                    show in baner
+                  </Typography>
+                  <FormControlLabel
+                    control={<Switch {...register("showInBaner")} />}
+                  />
+                </Box>
+                <Box className="secondColumn" sx={styles.formControlLableSx()}>
+                  <Typography sx={styles.showTypographySx()}>
+                    show in carousel
+                  </Typography>
+                  <FormControlLabel
+                    control={<Switch {...register("showInCarousel")} />}
+                  />
+                </Box>
+              </Box>
+
+              <Box sx={styles.categoriesContainerSx()}>
+                <Box>
+                  <InputLabel id="demo-multiple-chip-label">
+                    Categories
+                  </InputLabel>
+                  <Select
+                    {...register("categories")}
+                    labelId="demo-multiple-chip-label"
+                    id="demo-multiple-chip"
+                    multiple
+                    value={selectedCategories}
+                    onChange={selectCategoriesHandleChange}
+                    input={
+                      <OutlinedInput
+                        id="select-multiple-chip"
+                        label="Categories"
+                      />
+                    }
+                    renderValue={(selected) => (
+                      <Box sx={styles.chipsContainerSx()}>
+                        {selected.map((value) => (
+                          <Chip
+                            key={value}
+                            label={
+                              categories.find(
+                                (category) => category.id === value
+                              )?.title
+                            }
+                          />
+                        ))}
+                      </Box>
+                    )}
+                    MenuProps={ProductListTools.MenuProps}
+                    sx={styles.menuPropsSx()}
+                  >
+                    {categories.map((item) => (
+                      <MenuItem key={item.id} value={item.id}>
+                        {item.title}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </Box>
+              </Box>
+              <Button
+                variant="outlined"
+                color="info"
+                startIcon={<AddIcon />}
+                type="submit"
+                sx={styles.saveButtonSx()}
+              >
+                Save
+              </Button>
+            </form>
+          </Box>
+        )}
+      </Box>
+   
+
+      <Stepper sx={{width:"100%" ,alignItems:"center"}} activeStep={currentStep} alternativeLabel>
         {ProductListTools.steps.map((label) => (
           <Step key={label}>
-            <StepLabel>{label}</StepLabel>
+            <StepLabel >{label}</StepLabel>
           </Step>
         ))}
       </Stepper>
+    
     </>
   );
 };

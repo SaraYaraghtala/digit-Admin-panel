@@ -6,9 +6,9 @@ import { useForm } from "react-hook-form";
 import Alert from "@mui/material/Alert";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
+import styles from "./add.styles";
 
-
-const Add = ({ parent, getData, setCurrentNode,setShowAddPanel }) => {
+const Add = ({ parent, getData, setCurrentNode, setShowAddPanel }) => {
   const {
     handleSubmit,
     register,
@@ -65,8 +65,8 @@ const Add = ({ parent, getData, setCurrentNode,setShowAddPanel }) => {
         const result = await response.json();
         console.log("Data successfully posted to Strapi:", result);
         getData();
-        setCurrentNode(-1)
-        setShowAddPanel(false)
+        setCurrentNode(-1);
+        setShowAddPanel(false);
       } else {
         console.error("Error posting data to Strapi:", response.statusText);
       }
@@ -76,81 +76,44 @@ const Add = ({ parent, getData, setCurrentNode,setShowAddPanel }) => {
   };
 
   return (
-    <React.Fragment>
+    <>
       <CssBaseline />
-  
-        <Box
-          sx={{
-           height: "100%",
-            borderRadius: "5px",
-            padding: "2px",
-          }}
-        >
-          {imageId && (
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  height: "100%",
-                  padding: "2px",
-                  marginLeft: "30px",
-                  marginRight: "30px",
-                }}
-              >
-                <TextField
-                  helperText="Please enter category name"
-                  id="demo-helper-text-aligned"
-                  label="category"
-                  {...register("title", { required: true })}
-                  sx={{
-                    marginBottom: "10px",
-                    width: "60%",
-                    "& .MuiFormHelperText-root": {
-                      color: "#02A2E4",
-                    },
-                    "& .MuiOutlinedInput-root": {
-                      borderRadius: "10px",
-                      "& fieldset": {
-                        borderColor: " #73A5D3",
-                      },
-                    },
-                  }}
-                />
-                {errors.title && (
-                  <Alert severity="error">this field is required??</Alert>
-                )}
 
-                <Button
-                  variant="outlined"
-                  color="info"
-                  startIcon={<AddIcon />}
-                  type="submit"
-                  sx={{ marginTop: "10px", width: "15%" }}
-                >
-                  Save
-                </Button>
-              </Box>
-            </form>
-          )}
-          {!imageId && (
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                width: "100%",
-              }}
-            >
-              <input onChange={onFileChange} type="file" id="iconFile" />
+      <Box sx={styles.mainContainerSx()}>
+        {imageId && (
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Box sx={styles.innerContainerSx()}>
+              <TextField
+                helperText="Please enter category name"
+                id="demo-helper-text-aligned"
+                label="category"
+                {...register("title", { required: true })}
+                sx={styles.categoryNameSx()}
+              />
+              {errors.title && (
+                <Alert severity="error">this field is required??</Alert>
+              )}
+
+              <Button
+                variant="outlined"
+                color="info"
+                startIcon={<AddIcon />}
+                type="submit"
+                sx={styles.submitButtonSx()}
+              >
+                Save
+              </Button>
             </Box>
-          )}
-        </Box>
-    
-    </React.Fragment>
+          </form>
+        )}
+        {!imageId && (
+          <Box sx={styles.withoutImageSx()}>
+            <input onChange={onFileChange} type="file" id="iconFile" />
+          </Box>
+        )}
+      </Box>
+    </>
   );
 };
-
 
 export default Add;

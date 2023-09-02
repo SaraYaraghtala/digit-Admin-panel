@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from "react";
+
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
-// import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
-
 import { FormControl, FormHelperText, InputLabel, Input } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
+import styles from "./edit.styles";
 
 
-const Edit = ({ itemId,setShowEditPanel,refreshTree,setCurrentNode}) => {
+
+const Edit = ({ itemId, setShowEditPanel, refreshTree, setCurrentNode }) => {
   const [imageId, setImageId] = useState();
   const [itemData, setItemData] = useState();
-  const [title,setTitle]= useState("");
-  const [parent,setParent]=useState(0);
+  const [title, setTitle] = useState("");
+  const [parent, setParent] = useState(0);
   const [imageFile, setImageFile] = useState(null);
-
-
 
   useEffect(() => {
     getData();
@@ -36,27 +35,25 @@ const Edit = ({ itemId,setShowEditPanel,refreshTree,setCurrentNode}) => {
       .then((response) => response.json())
       .then((result) => {
         setItemData(result.data);
-        setTitle(result.data.attributes.title)
-        setImageId(result.data.attributes.icon.data[0].id)
-        setParent(result.data.attributes.parent)
+        setTitle(result.data.attributes.title);
+        setImageId(result.data.attributes.icon.data[0].id);
+        setParent(result.data.attributes.parent);
         console.log(result.data);
       });
   };
 
-  const onSubmit = async() => {
+  const onSubmit = async () => {
     try {
       const formData = {
         data: {
-          title:title,
+          title: title,
           icon: [imageId],
-          parent:parent ,
+          parent: parent,
         },
       };
 
-      console.log(formData);
-
       const response = await fetch(
-        import.meta.env.VITE_BASE_URL + "/api/categories/"+itemId,
+        import.meta.env.VITE_BASE_URL + "/api/categories/" + itemId,
         {
           method: "PUT",
           headers: {
@@ -65,13 +62,11 @@ const Edit = ({ itemId,setShowEditPanel,refreshTree,setCurrentNode}) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(formData),
-
-          // body: JSON.stringify({ data: formData }),
         }
       );
 
       if (response.ok) {
-        setShowEditPanel(false)
+        setShowEditPanel(false);
         const result = await response.json();
         console.log("Data successfully posted to Strapi:", result);
         refreshTree();
@@ -84,12 +79,11 @@ const Edit = ({ itemId,setShowEditPanel,refreshTree,setCurrentNode}) => {
     }
   };
 
-
   const uploadImage = async () => {
     try {
       const formData = new FormData();
       formData.append("files", imageFile);
-  
+
       const response = await fetch(
         import.meta.env.VITE_BASE_URL + "/api/upload",
         {
@@ -100,16 +94,14 @@ const Edit = ({ itemId,setShowEditPanel,refreshTree,setCurrentNode}) => {
           body: formData,
         }
       );
-  
+
       if (response.ok) {
         const result = await response.json();
         const imageUrl = result[0]?.url || "";
-        console.log (result)
+        console.log(result);
 
-  
-      
         setImageId(result[0].id);
-  
+
         setItemData((prevItemData) => ({
           ...prevItemData,
           attributes: {
@@ -125,7 +117,7 @@ const Edit = ({ itemId,setShowEditPanel,refreshTree,setCurrentNode}) => {
             },
           },
         }));
-  
+
         console.log("Image uploaded successfully:", result);
       } else {
         console.error("Error uploading image:", response.statusText);
@@ -134,96 +126,68 @@ const Edit = ({ itemId,setShowEditPanel,refreshTree,setCurrentNode}) => {
       console.error("Error uploading image:", error);
     }
   };
-  
-  
-  
 
   return (
-    <div>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "10%",
-            padding: "2px",
-            marginLeft: "30px",
-            marginRight: "30px",
-          }}
-        >
-          <TextField
-            helperText="Please enter category name"
-            id="demo-helper-text-aligned"
-            value={title}
-            onChange={(e)=>setTitle(e.target.value)}
-      
+    <>
+      <Box
+        sx={styles.mainContainerSx()}
+      >
+        <TextField
+          helperText="Please enter category name"
+          id="demo-helper-text-aligned"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          sx={styles.categoryNameSx()}
+        />
 
-            sx={{
-              marginBottom: "10px",
-              width: "60%",
-              "& .MuiFormHelperText-root": {
-                color: "#02A2E4",
-              },
-              "& .MuiOutlinedInput-root": {
-                borderRadius: "10px",
-                "& fieldset": {
-                  borderColor: " #73A5D3",
-                },
-              },
+        <FormControl sx={styles.formControlContainerSx()}>
+          <InputLabel htmlFor="icon-upload" shrink>
+            Icon Upload
+          </InputLabel>
+          <Input
+            id="icon-upload"
+            type="file"
+            onChange={(e) => {
+              const file = e.target.files[0];
+              setImageFile(file);
             }}
           />
-
-            <FormControl sx={{ marginTop: "10px", width: "60%" }}>
-                <InputLabel htmlFor="icon-upload" shrink>
-                  Icon Upload
-                </InputLabel>
-                <Input
-                  id="icon-upload"
-                  type="file"
-                  onChange={(e) => {
-                    const file = e.target.files[0];
-                    setImageFile(file);
-                  }}
-                />
-                <FormHelperText>
-                  {imageFile ? imageFile.name : "Choose an image file"}
-                </FormHelperText>
-                <Button
-                  variant="contained"
-                  component="label"
-                  startIcon={<CloudUploadIcon />}
-                  onClick={uploadImage}
-                  disabled={!imageFile}
-                >
-                  Upload
-                </Button>
-              </FormControl>
-
+          <FormHelperText>
+            {imageFile ? imageFile.name : "Choose an image file"}
+          </FormHelperText>
           <Button
-            variant="outlined"
-            color="info"
-            startIcon={<AddIcon />}
-            onClick={onSubmit}
-            sx={{ marginTop: "10px", width: "15%" }}
+            variant="contained"
+            component="label"
+            startIcon={<CloudUploadIcon />}
+            onClick={uploadImage}
+            disabled={!imageFile}
           >
-            Save
+            Upload
           </Button>
-        </Box>
-    
+        </FormControl>
+
+        <Button
+          variant="outlined"
+          color="info"
+          startIcon={<AddIcon />}
+          onClick={onSubmit}
+          sx={styles.submitButtonSx()}
+        >
+          Save
+        </Button>
+      </Box>
 
       <img
-       style={{ width: "80px", height: "80px", marginBottom: "10px" }}
+        style={styles.productImageSx()}
         src={
           import.meta.env.VITE_BASE_URL +
           ((itemData?.attributes?.icon?.data != null &&
             itemData.attributes.icon.data[0]?.attributes.url) ||
             "")
         }
-        
-        alt=""
+        alt="image"
       />
-    </div>
+    </>
   );
 };
 

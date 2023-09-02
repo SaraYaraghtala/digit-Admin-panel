@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import TreeItem from "@mui/lab/TreeItem";
@@ -13,8 +14,11 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import Stack from "@mui/material/Stack";
 import CloseIcon from "@mui/icons-material/Close";
+
 import Add from "./addCategory/Add";
 import Edit from "./editCategory/Edit";
+
+import styles from "./category.styles";
 
 const Category = () => {
   const [menuData, setMenuData] = useState([]);
@@ -115,19 +119,7 @@ const Category = () => {
       <CssBaseline />
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Box
-          sx={{
-            display: "flex",
-            width: "40%",
-            height: "100%",
-            marginLeft: "30px",
-            marginRight: "30px",
-            borderRadius: "20px",
-            backgroundColor: "#FFF",
-            boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
-            marginX: "100px",
-          }}
-        >
+        <Box sx={styles.mainContainerSx()}>
           <Controller
             name="parent"
             control={control}
@@ -137,13 +129,7 @@ const Category = () => {
                 aria-label="file system navigator"
                 defaultCollapseIcon={<ExpandMoreIcon />}
                 defaultExpandIcon={<ChevronRightIcon />}
-                sx={{
-                  height: "100%",
-                  width: "100%",
-                  overflowY: "auto",
-                  marginBottom: "20px",
-                  marginTop: "20px",
-                }}
+                sx={styles.treeViewSx()}
                 onNodeSelect={(event, value) => {
                   field.onChange(Number(value));
                   setCurrentNode(Number(value));
@@ -167,34 +153,19 @@ const Category = () => {
                                 aria-label="delete"
                                 onClick={item.deleteItem}
                               >
-                                <DeleteIcon
-                                  sx={{
-                                    fill: "red",
-                                    fontSize: 20,
-                                  }}
-                                />
+                                <DeleteIcon sx={styles.deleteIconSx()} />
                               </IconButton>
                               <IconButton
                                 aria-label="delete"
                                 onClick={item.editItem}
                               >
-                                <ModeEditIcon
-                                  sx={{
-                                    fill: "red",
-                                    fontSize: 20,
-                                  }}
-                                />
+                                <ModeEditIcon sx={styles.modeEditIconSx()} />
                               </IconButton>
                               <IconButton
                                 aria-label="delete"
                                 onClick={item.addItem}
                               >
-                                <AddIcon
-                                  sx={{
-                                    fill: "red",
-                                    fontSize: 20,
-                                  }}
-                                />
+                                <AddIcon sx={styles.addIconSx()} />
                               </IconButton>
                             </Stack>
                           )}
@@ -213,42 +184,27 @@ const Category = () => {
                                 <Stack
                                   direction="row"
                                   spacing={1}
-                                  sx={{
-                                    display: "inline-block",
-                                  }}
+                                  sx={styles.treeItemSx()}
                                 >
                                   <IconButton
                                     aria-label="delete"
                                     onClick={subItem.deleteItem}
                                   >
-                                    <DeleteIcon
-                                      sx={{
-                                        fill: "red",
-                                        fontSize: 20,
-                                      }}
-                                    />
+                                    <DeleteIcon sx={styles.deleteIconSx()} />
                                   </IconButton>
                                   <IconButton
                                     aria-label="delete"
                                     onClick={subItem.editItem}
                                   >
                                     <ModeEditIcon
-                                      sx={{
-                                        fill: "red",
-                                        fontSize: 20,
-                                      }}
+                                      sx={styles.modeEditIconSx()}
                                     />
                                   </IconButton>
                                   <IconButton
                                     aria-label="delete"
                                     onClick={subItem.addItem}
                                   >
-                                    <AddIcon
-                                      sx={{
-                                        fill: "red",
-                                        fontSize: 20,
-                                      }}
-                                    />
+                                    <AddIcon sx={styles.addIconSx()} />
                                   </IconButton>
                                 </Stack>
                               )}
@@ -266,19 +222,14 @@ const Category = () => {
                                     <Stack
                                       direction="row"
                                       spacing={1}
-                                      sx={{
-                                        display: "inline-block",
-                                      }}
+                                      sx={styles.treeItemSx()}
                                     >
                                       <IconButton
                                         aria-label="delete"
                                         onClick={opt.deleteItem}
                                       >
                                         <DeleteIcon
-                                          sx={{
-                                            fill: "red",
-                                            fontSize: 20,
-                                          }}
+                                          sx={styles.deleteIconSx()}
                                         />
                                       </IconButton>
                                       <IconButton
@@ -286,22 +237,14 @@ const Category = () => {
                                         onClick={opt.editItem}
                                       >
                                         <ModeEditIcon
-                                          sx={{
-                                            fill: "red",
-                                            fontSize: 20,
-                                          }}
+                                          sx={styles.modeEditIconSx()}
                                         />
                                       </IconButton>
                                       <IconButton
                                         aria-label="delete"
                                         onClick={opt.addItem}
                                       >
-                                        <AddIcon
-                                          sx={{
-                                            fill: "red",
-                                            fontSize: 20,
-                                          }}
-                                        />
+                                        <AddIcon sx={styles.addIconSx()} />
                                       </IconButton>
                                     </Stack>
                                   )}
@@ -321,25 +264,13 @@ const Category = () => {
       </form>
 
       {showEditPanel && (
-        <Box
-          sx={{
-            position: "absolute",
-            top: 50,
-            right: 40,
-            width: "40%",
-            height: "40%",
-            borderRadius: "20px",
-            backgroundColor: "#FFF",
-            boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
-            marginTop: "40px",
-          }}
-        >
+        <Box sx={styles.showPanelSx()}>
           <IconButton
             onClick={() => {
               setShowEditPanel(false);
             }}
           >
-            <CloseIcon style={{ color: "#EE384E" }} />
+            <CloseIcon className="closeIcon" />
           </IconButton>
           <Edit
             itemId={currentNode}
@@ -350,26 +281,13 @@ const Category = () => {
         </Box>
       )}
       {showAddPanel && (
-        <Box
-          sx={{
-            position: "absolute",
-            top: 50,
-            right: 40,
-            width: "40%",
-            height: "40%",
-            padding: "20px",
-            borderRadius: "20px",
-            backgroundColor: "#FFF",
-            boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
-            marginTop: "40px",
-          }}
-        >
+        <Box sx={styles.showPanelSx()}>
           <IconButton
             onClick={() => {
               setShowAddPanel(false);
             }}
           >
-            <CloseIcon style={{ color: "#EE384E" }} />
+            <CloseIcon className="closeIcon" />
           </IconButton>
           <Add
             parent={currentNode}

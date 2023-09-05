@@ -128,7 +128,7 @@ const Edit = ({ itemId, setShowEditPanel, refreshTree, setCurrentNode }) => {
   };
 
   return (
-    <>
+    <Box>
       <Box
         sx={styles.mainContainerSx()}
       >
@@ -187,7 +187,7 @@ const Edit = ({ itemId, setShowEditPanel, refreshTree, setCurrentNode }) => {
         }
         alt="image"
       />
-    </>
+    </Box>
   );
 };
 

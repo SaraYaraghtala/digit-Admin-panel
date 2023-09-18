@@ -37,13 +37,14 @@ const Category = () => {
 
   const deleteItem = (itemId) => {
     if (confirm("you sure delete this item ?")) {
+      const headers = {
+        Authorization: "bearer " + import.meta.env.VITE_API_KEY,
+        accept: "application/json",
+        "Content-Type": "application/json",
+      };
       fetch(import.meta.env.VITE_BASE_URL + "/api/categories/" + itemId, {
         method: "DELETE",
-        headers: {
-          Authorization: "bearer " + import.meta.env.VITE_API_KEY,
-          accept: "application/json",
-          "Content-Type": "application/json",
-        },
+        headers : headers,
       })
         .then((res) => res.json())
         .then((response) => {
